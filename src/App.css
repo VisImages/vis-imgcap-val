@@ -1,11 +1,9 @@
 .App {
+  height: 100%;
+  width: 100%;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -35,4 +33,48 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.appBar {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 8vh;
+  background-color: white;
+  align-items: left;
+}
+
+.logo {
+  float: left;
+  position: relative;
+  left: 50px;
+  top: 20%;
+  height: 60%
+}
+
+.right {
+  float: right;
+  left: -50px;
+  right: 50px;
+}
+
+.workingArea {
+  display: flex;
+  width: 100%;
+  height: 92vh;
+  background-color: greenyellow;
+}
+
+.pdfFigureView {
+  display: block;
+  height: 100%;
+  width: 50vw;
+  background-color: gray;
+}
+
+.annoView {
+  display: block;
+  height: 100%;
+  width: 50vw;
+  background-color: lightgray;
 }
