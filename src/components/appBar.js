@@ -30,4 +30,4 @@ class AppBar extends React.Component {
     }
 }
 
-export default inject('t')(observer(AppBar));
+export default inject('d')(observer(AppBar));

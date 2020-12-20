@@ -5,10 +5,10 @@ class Store {
     d = new Data(this);
 
     constructor () {
-        this.d.init();
+        // this.d.init();
     }
 }
 
-store = new Store();
+const store = new Store();
 
 export default store;
