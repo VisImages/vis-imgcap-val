@@ -3,7 +3,8 @@ import {inject, observer} from "mobx-react";
 import logo from '../resource/logo-visimages.png';
 import logofile from '../resource/file-logo.svg';
 
-
+@inject('d')
+@observer
 class AppBar extends React.Component {
 
     uploadClick = () => {
@@ -12,9 +13,11 @@ class AppBar extends React.Component {
         input.accept = '*.pdf';
         input.onchange = e => {
             const file = e.target.files[0];
+            const {openPdf} = this.props.d;
             console.log(file.name)
             console.log(file)
             console.log(URL.createObjectURL(file))
+            openPdf(file);
             // setVideoName(file.name);
             // setVideoSrc(URL.createObjectURL(file));
             // setFileObj(file);

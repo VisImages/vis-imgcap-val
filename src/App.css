@@ -65,12 +65,7 @@
   background-color: greenyellow;
 }
 
-.pdfFigureView {
-  display: block;
-  height: 100%;
-  width: 50vw;
-  background-color: gray;
-}
+
 
 .annoView {
   display: block;

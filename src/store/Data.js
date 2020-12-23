@@ -16,6 +16,7 @@ class Data {
 
     openPdf = (file) => {
         this.paper = file;
+        console.log(file);
     };
 
     checkUploadedile = () => {
