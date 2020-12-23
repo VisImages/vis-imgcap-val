@@ -48,8 +48,8 @@ This view presents the loaded pdf file, providing pdf control functions, includi
 TODO List:
 - [x] Page changing
 - [x] Scale up and down
-- [] Figure position visualization
-- [] Figure position modification
+- [ ] Figure position visualization
+- [ ] Figure position modification
 
 ## AnnoView.js
 This view presents the extracted captions of the figures. The view includes a list of captions and a confirmation button. There are four essential interactions:
@@ -60,11 +60,11 @@ This view presents the extracted captions of the figures. The view includes a li
 5. Add a new figure. The new figure will be added after the current figure.
 
 TODO List:
-- [] Selection
-- [] Modification
-- [] Confirmation
-- [] Deletion
-- [] Addition
+- [ ] Selection
+- [ ] Modification
+- [ ] Confirmation
+- [ ] Deletion
+- [ ] Addition
 
 ## AppBar.js
 The `AppBar.js` provides pdf loading and data saving functions.
@@ -72,6 +72,6 @@ The `AppBar.js` provides pdf loading and data saving functions.
 2. Data Saving. Check if all figures are confirmed. If yes, save the data by downloading it. Else, ask the user to confirm all the figures.
 
 TODO List:
-- [] Loading
-- [] Checking before loading
-- [] Saving
+- [ ] Loading
+- [ ] Checking before loading
+- [ ] Saving
