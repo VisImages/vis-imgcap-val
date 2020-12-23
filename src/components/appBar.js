@@ -1,23 +1,46 @@
 import React from 'react';
 import {inject, observer} from "mobx-react";
+import {makeStyles, CssBaseline} from "@material-ui/core";
 import logo from '../resource/logo-visimages.png';
-import logofile from '../resource/file-logo.svg';
+import filelogo from '../resource/file-logo.svg';
+import clsx from 'clsx';
 
-@inject('d')
-@observer
-class AppBar extends React.Component {
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'block',
+        width: '100%',
+        height: '7%',
+        backgroundColor: '#ADDFFF',
+    },
+    logo: {
+        float: 'left',
+        position: 'relative',
+        height: '80%',
+        left: '30px',
+        top: '10%',
+    },
+    right: {
+        float: 'right',
+        left: '-30px',
+        right: '30px'
+    }
+  }));
 
-    uploadClick = () => {
+
+function AppBar({d}){
+    const classes = useStyles();
+
+    const uploadClick = () => {
         const input = document.createElement('input');
+        const {openPdf} = d;
         input.type = 'file';
         input.accept = '*.pdf';
         input.onchange = e => {
             const file = e.target.files[0];
-            const {openPdf} = this.props.d;
             console.log(file.name)
             console.log(file)
-            console.log(URL.createObjectURL(file))
             openPdf(file);
+            // console.log(URL.createObjectURL(file))
             // setVideoName(file.name);
             // setVideoSrc(URL.createObjectURL(file));
             // setFileObj(file);
@@ -25,12 +48,10 @@ class AppBar extends React.Component {
         input.click();
     }
 
-    render () {
-        return (<div className="appBar">
-            <img className="logo" src={logo}/>
-            <img className="logo right" src={logofile} onClick = {this.uploadClick}/>
-        </div>);
-    }
+    return (<div className={classes.root}>
+        <img className={classes.logo} src={logo}/>
+        <img className={clsx(classes.logo, classes.right)} src={filelogo} onClick = {uploadClick}/>
+    </div>);
 }
 
 export default inject('d')(observer(AppBar));

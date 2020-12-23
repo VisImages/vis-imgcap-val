@@ -5,7 +5,7 @@ class Store {
     d = new Data(this);
 
     constructor () {
-        // this.d.init();
+        this.d.init();
     }
 }
 
