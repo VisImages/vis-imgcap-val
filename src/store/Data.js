@@ -11,21 +11,14 @@ class Data {
         // console.log(this.metaData);
         // console.log(this.paperList);
     }
-    @observable paper = null
-    @observable current_state = {
-        paper_name: null,
-        loaded: false,
-        downloaded: false,
-        page: -1
-    }
-
-
+    @observable current_state = {}
 
     initState () {
         this.current_state = {
-            iid: 0,
+            paper: 0,
             pageNumber: 1,
             numPages: 0,
+            scale: 1,
         }
     }
 
@@ -38,15 +31,22 @@ class Data {
             this.current_state.pageNumber = pageNumber;
     }
 
+    @action updateScale = newScale => {
+        console.log("update scale", newScale)
+        if (newScale > 0 && newScale < 4)
+            this.current_state.scale = newScale;
+    }
+
     openPdf = (file) => {
-        this.paper = file;
+        this.current_state.paper = file;
+        this.current_state.scale = 1;
     };
 
     @computed get updatePdfUrl() {
-        return this.paper;
+        return this.current_state.paper;
     };
 
-    checkUploadedile = () => {
+    checkUploadedfile = () => {
 
     };
 

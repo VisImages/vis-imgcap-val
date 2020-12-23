@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     position: 'relative',
     width: '100%',
-    height: '92vh'
+    height: '92vh',
   }
 }));
 

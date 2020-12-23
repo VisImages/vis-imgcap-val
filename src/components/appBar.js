@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'block',
         width: '100%',
-        height: '7%',
+        height: '8vh',
         backgroundColor: '#ADDFFF',
     },
     logo: {
