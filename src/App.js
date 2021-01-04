@@ -1,6 +1,6 @@
-import AppBar from "./components/AppBar";
-import PdfFigureView from "./components/PdfFigureView";
-import AnnoView from "./components/AnnoView";
+import AppBar from "./components/appBar";
+import PdfFigureView from "./components/pdfFigureView";
+import AnnoView from "./components/annoView";
 
 import {makeStyles} from '@material-ui/core';
 

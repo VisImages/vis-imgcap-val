@@ -1,6 +1,5 @@
 import {action, computed, observable} from "mobx";
 
-
 class Data {
     constructor(root) {
         this.root = root
@@ -19,8 +18,10 @@ class Data {
             pageNumber: 1,
             numPages: 0,
             scale: 1,
+            visimages_data: [],
         }
     }
+
 
     @action updateNumPages = numPages => {
         this.current_state.numPages = numPages;
@@ -37,6 +38,15 @@ class Data {
             this.current_state.scale = newScale;
     }
 
+    @action updateJson = newJson => {
+        var reader = new FileReader();
+        reader.onload = e => {
+            this.current_state.visimages_data = JSON.parse(e.target.result);
+        };
+        reader.readAsText(newJson);
+    }
+
+
     openPdf = (file) => {
         this.current_state.paper = file;
         this.current_state.scale = 1;
@@ -45,6 +55,22 @@ class Data {
     @computed get updatePdfUrl() {
         return this.current_state.paper;
     };
+
+    @computed get annoList() {
+        let annoList = [];
+        for(let i = 0; i < this.current_state.visimages_data.length; i++){
+            annoList.push(this.current_state.visimages_data[i].bbox.join(','));
+        }
+        return annoList;
+    }
+
+    @computed get captionList() {
+        let captionList = [];
+        for(let i = 0; i < this.current_state.visimages_data.length; i++){
+            captionList.push(this.current_state.visimages_data[i].caption_text);
+        }
+        return captionList;
+    }
 
     checkUploadedfile = () => {
 

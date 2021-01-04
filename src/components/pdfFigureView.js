@@ -1,6 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core';
 import { inject, observer } from "mobx-react";
+import {Rect} from "react-konva";
+import Konva from "konva";
 
 
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
@@ -82,11 +84,12 @@ class PdfFigureView extends React.Component {
         updatePageNumber(this.props.d.current_state.pageNumber + 1);
         console.log("metaaaa", this.props.d.current_state)
     }
-
+    //const this.props.bbox = d.annoList[0].split(',') 
+    //<Rect x={bbox[0]} y={bbox[1]} width={bbox[2]-bbox[0]} height={bbox[3]-bbox[1]}></Rect>
     render() {
         const { classes } = this.props;
         const pdf = this.props.d.updatePdfUrl;
-        // console.log(pdf)
+        console.log(pdf)
         console.log("render component", this.props.d.current_state);
         const { pageNumber, numPages } = this.props.d.current_state;
 
@@ -116,8 +119,11 @@ class PdfFigureView extends React.Component {
                             className={classes.page}
                         // width = {classes.page.width}
                         />
+                        <Rect x={0} y={0} width={500} height={500} fill="green" shadowBlur={5}></Rect>
                     </Document>
+                    
                 </div>
+                
             </div>
         );
     }
