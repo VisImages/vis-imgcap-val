@@ -36,23 +36,23 @@ function AnnoView({ d }) {
     const classes = useStyles();
     return <div className={classes.root}>
         {d.captionList.map((value, index) =>
-        <div className={classes.main}>
-            <Card className={classes.card} key={index}>
-                <Typography className={classes.card} variant='h4'>{value}</Typography>
-            </Card>
-            <Container className={classes.buttonGroup}>
-                <img className={classes.button} src={addlogo} alt=""></img>
-                <img className={classes.button} src={deletelogo} alt=""></img>
-            </Container>
-            <Button className={classes.confirm}>confirm</Button>
-        </div>
+            <div className={classes.main}>
+                <Card className={classes.card} key={index}>
+                    <Typography className={classes.card} variant='h4'>{value}</Typography>
+                </Card>
+                <Container className={classes.buttonGroup}>
+                    <img className={classes.button} src={addlogo} alt=""></img>
+                    <img className={classes.button} src={deletelogo} alt=""></img>
+                </Container>
+                <Button className={classes.confirm}>confirm</Button>
+            </div>
         )}
         {d.annoList.map((value, index) =>
-        <div className={classes.main}>
-            <Card className={classes.card} key={index}>
-                <Typography className={classes.card} variant='h4'>{value}</Typography>
-            </Card>
-        </div>
+            <div className={classes.main}>
+                <Card className={classes.card} key={index}>
+                    <Typography className={classes.card} variant='h4'>{value}</Typography>
+                </Card>
+            </div>
         )}
     </div>
 };

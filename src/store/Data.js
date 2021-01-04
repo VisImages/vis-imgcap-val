@@ -1,4 +1,4 @@
-import {action, computed, observable} from "mobx";
+import { action, computed, observable } from "mobx";
 
 class Data {
     constructor(root) {
@@ -12,7 +12,7 @@ class Data {
     }
     @observable current_state = {}
 
-    initState () {
+    initState() {
         this.current_state = {
             paper: 0,
             pageNumber: 1,
@@ -58,7 +58,7 @@ class Data {
 
     @computed get annoList() {
         let annoList = [];
-        for(let i = 0; i < this.current_state.visimages_data.length; i++){
+        for (let i = 0; i < this.current_state.visimages_data.length; i++) {
             annoList.push(this.current_state.visimages_data[i].bbox.join(','));
         }
         return annoList;
@@ -66,7 +66,7 @@ class Data {
 
     @computed get captionList() {
         let captionList = [];
-        for(let i = 0; i < this.current_state.visimages_data.length; i++){
+        for (let i = 0; i < this.current_state.visimages_data.length; i++) {
             captionList.push(this.current_state.visimages_data[i].caption_text);
         }
         return captionList;
