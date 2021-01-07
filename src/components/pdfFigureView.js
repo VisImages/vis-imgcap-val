@@ -7,10 +7,11 @@ import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 
 const useStyles = theme => ({
     root: {
+        position: 'relative',
         width: '50%',
         height: '100%',
         display: 'block',
-        backgroundColor: 'gray'
+        backgroundColor: 'gray',
     },
     nav: {
         width: '100%',
@@ -25,17 +26,19 @@ const useStyles = theme => ({
     },
     pdf: {
         display: 'block',
+        height: '100%',
         width: '100%',
-        height: '90%',
-        backgroundColor: 'gray'
+        backgroundColor: 'gray',
+        overflow: 'scroll',
     },
     document: {
         width: '100%',
+        display: 'block'
     },
     page: {
         // position: 'relative',
-        display: 'block',
-        marginLeft: 'auto'
+        display: 'flex',
+        justifyContent: 'center',
     }
 });
 

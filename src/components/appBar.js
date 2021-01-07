@@ -7,10 +7,11 @@ import clsx from 'clsx';
 import { Update } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
-    root: {
+    bar_root: {
         display: 'block',
+        position:'relative',
         width: '100%',
-        height: '8vh',
+        height: '8%',
         backgroundColor: '#ADDFFF',
     },
     logo: {
@@ -70,10 +71,9 @@ function AppBar({d}){
         input.click();
     }
 
-    return (<div className={classes.root}>
+    return (<div className={classes.bar_root}>
         <img className={classes.logo} src={logo} alt=""/>
         <img className={clsx(classes.logo, classes.right)} src={filelogo} onClick = {uploadClick} alt=""/>
-        <img className={clsx(classes.logo, classes.right)} src={filelogo} onClick = {uploadClickJson} alt=""/>
     </div>);
 }
 
