@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import pacificvis_data from "../resource/pacificvis_data.json"
+import viscaption_data from "../resource/ieeevis_data.json"
 
 class Data {
     constructor(root) {
@@ -26,7 +26,7 @@ class Data {
     }
 
     readMeta = () => {
-        this.metaData = pacificvis_data;
+        this.metaData = viscaption_data;
     }
 
 
