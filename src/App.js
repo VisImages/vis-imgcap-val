@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
       height: '100vh',
       left: 0,
       right: 0,
+      overflow: 'hidden'
       // backgroundColor: theme.palette.primary.main,
   },
   main: {
