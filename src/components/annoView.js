@@ -6,7 +6,9 @@ import deletelogo from '../resource/delete.svg';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: '50%',
+        flexBasis: 1,
+        flexGrow: 1,
+        maxWidth: '50%',
         height: '100%',
         overflowY: 'scroll',
     },

@@ -7,9 +7,10 @@ import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 
 const useStyles = theme => ({
     root: {
+        flexGrow: 1,
+        flexBasis: 1,
         position: 'relative',
-        width: '50%',
-        height: '100%',
+        maxWidth: '50%',
         display: 'block',
         backgroundColor: 'gray',
     },
@@ -26,19 +27,20 @@ const useStyles = theme => ({
     },
     pdf: {
         display: 'block',
-        height: '100%',
-        width: '100%',
+        maxHeight: '100%',
+        maxWidth: '100%',
         backgroundColor: 'gray',
         overflow: 'scroll',
     },
     document: {
-        width: '100%',
-        display: 'block'
+        display: 'flex',
+        flex: '1 1 auto'
     },
     page: {
         // position: 'relative',
         display: 'flex',
-        justifyContent: 'center',
+        flex: '1 1 auto',
+        justifyContent: 'center'
     }
 });
 
