@@ -1,4 +1,5 @@
 import { action, computed, observable } from "mobx";
+import pacificvis_data from "../resource/pacificvis_data.json"
 
 class Data {
     constructor(root) {
@@ -7,6 +8,7 @@ class Data {
 
     init() {
         this.initState();
+        this.readMeta();
         // console.log(this.metaData);
         // console.log(this.paperList);
     }
@@ -19,7 +21,12 @@ class Data {
             numPages: 0,
             scale: 1,
             visimages_data: [],
+            paperid: -1,
         }
+    }
+
+    readMeta = () => {
+        this.metaData = pacificvis_data;
     }
 
 
@@ -38,18 +45,11 @@ class Data {
             this.current_state.scale = newScale;
     }
 
-    @action updateJson = newJson => {
-        var reader = new FileReader();
-        reader.onload = e => {
-            this.current_state.visimages_data = JSON.parse(e.target.result);
-        };
-        reader.readAsText(newJson);
-    }
-
-
     openPdf = (file) => {
         this.current_state.paper = file;
         this.current_state.scale = 1;
+        this.current_state.paperid = file.name.split('.')[0];
+        this.current_state.visimages_data = this.metaData[this.current_state.paperid]
     };
 
     @computed get updatePdfUrl() {
