@@ -40,7 +40,6 @@ class Data {
 
 
     @action updateNumPages = numPages => {
-        this.current_state.pageNumber = 1;
         this.current_state.numPages = numPages;
     }
 
@@ -62,10 +61,15 @@ class Data {
         this.current_state.paperid = file.name.split('.')[0];
         if (this.metaData.hasOwnProperty(this.current_state.paperid)){
             this.data_state.loaded = true;
-            if (this.metaData[this.current_state.paperid].length > 0)
+            if (this.metaData[this.current_state.paperid].length > 0){
                 this.data_state.currentIndex = 0;
-            else
+                this.current_state.pageNumber = this.metaData[this.current_state.paperid][0].page;
+            }
+                
+            else{
+                this.current_state.pageNumber = 1;
                 this.data_state.currentIndex = -1;
+            }
         }
         this.data_base = this.metaData[this.current_state.paperid]
     };

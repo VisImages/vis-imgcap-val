@@ -12,7 +12,6 @@ const useStyles = theme => ({
         position: 'relative',
         maxWidth: '50%',
         display: 'block',
-        backgroundColor: 'gray',
     },
     nav: {
         width: '100%',
@@ -20,23 +19,31 @@ const useStyles = theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: '#f1b254',
     },
     btn: {
         margin: "0px 10px 0px 10px",
         height: '50%',
     },
-    pdf: {
+    pdf_view: {
         display: 'block',
+        position: 'relative',
         height: '95%',
         backgroundColor: 'gray',
         overflow: 'scroll',
+    },
+    pdf_container: {
+        left: '50%',
+        marginRight: '-50%',
+        transform: 'translate(-50%, 0)',
+        position: 'absolute',
+        display: 'flex'
     },
     document: {
         display: 'flex',
         flex: '1 1 auto'
     },
     page: {
-        position: 'absolute',
         display: 'flex',
         flex: '1 1 auto',
         justifyContent: 'center'
@@ -68,10 +75,12 @@ class PdfFigureView extends React.Component {
         console.log("metaaaa", this.props.d.current_state)
     };
 
-    onPageLoadSuccess = ({height, width}) => {
-        console.log(height, width);
+    onPageLoadSuccess = (info) => {
+        const {height, width} = info;
+        console.log(info);
         this.setState({dimensions: {height: height, width, width}});
         console.log(this.state);
+        console.log("metaaaa", this.props.d.current_state)
     }
 
     // goToPrevPdf = () => {
@@ -110,7 +119,6 @@ class PdfFigureView extends React.Component {
         const pdf = this.props.d.updatePdfUrl;
         console.log(pdf)
         console.log("render component", this.props.d.current_state);
-        const { pageNumber, numPages } = this.props.d.current_state;
         const {currentBox} = this.props.d;
 
 
@@ -125,36 +133,36 @@ class PdfFigureView extends React.Component {
                     <button className={classes.btn} onClick={this.goToNextPage}>Next Page</button>
                     <button className={classes.btn} onClick={this.scaleUp}>Scale Up</button>
                 </nav>
-                <div className={classes.pdf}>
-                    <Document
-                        className={classes.document}
-                        file={pdf}
-                        onLoadSuccess={this.onDocumentLoadSuccess}
-                        onLoadError={console.error}
-                    >
-                        <Page
-                            pageNumber={pageNumber}
-                            width={680}
-                            scale={this.props.d.current_state.scale}
-                            className={classes.page}
-                            onLoadSuccess={this.onPageLoadSuccess}
-                        // width = {classes.page.width}
-                        >      
-                            {currentBox.length !== 0 && <div className={classes.bbox}
-                                style={
-                                    {
-                                    left: `${100 * currentBox[0] / this.state.dimensions.width}%`,
-                                    top: `${100 * currentBox[1] / this.state.dimensions.height}%`,
-                                    width: `${100 * (currentBox[2] - currentBox[0]) / this.state.dimensions.width}%`,
-                                    height: `${100 * (currentBox[3] - currentBox[1]) / this.state.dimensions.height}%`,
-                                    // borderColor: ColorStyles[value.visType],
-                                    borderWidth: '2px',
-                                    borderStyle: 'solid',
-                                    // visibility: value.visibility,
-                                    }}></div>}
-                        </Page>
-                    </Document>
-
+                <div className={classes.pdf_view}>
+                    <div className={classes.pdf_container}>
+                        <Document
+                            className={classes.document}
+                            file={pdf}
+                            onLoadSuccess={this.onDocumentLoadSuccess}
+                            onLoadError={console.error}
+                        >
+                            <Page
+                                pageNumber={this.props.d.current_state.pageNumber}
+                                width={680}
+                                scale={this.props.d.current_state.scale}
+                                className={classes.page}
+                                onLoadSuccess={this.onPageLoadSuccess}
+                            // width = {classes.page.width}
+                            />
+                        </Document>
+                        {currentBox.length !== 0 && <div className={classes.bbox}
+                            style={
+                                {
+                                left: `${100 * currentBox[0] / this.state.dimensions.width}%`,
+                                top: `${100 * currentBox[1] / this.state.dimensions.height}%`,
+                                width: `${100 * (currentBox[2] - currentBox[0]) / this.state.dimensions.width}%`,
+                                height: `${100 * (currentBox[3] - currentBox[1]) / this.state.dimensions.height}%`,
+                                // borderColor: ColorStyles[value.visType],
+                                borderWidth: '2px',
+                                borderStyle: 'solid',
+                                // visibility: value.visibility,
+                                }}></div>}
+                    </div>
                 </div>
             </div>
         );
