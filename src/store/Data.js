@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import viscaption_data from "../resource/ieeevis_data.json"
+import viscaption_data from "../resource/visimages_cap.json"
 
 class Data {
     constructor(root) {

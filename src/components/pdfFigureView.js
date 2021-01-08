@@ -2,8 +2,8 @@ import React from 'react';
 import { withStyles } from '@material-ui/core';
 import { inject, observer } from "mobx-react";
 
-
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
+import { SlowMotionVideo } from '@material-ui/icons';
 
 const useStyles = theme => ({
     root: {
@@ -41,6 +41,17 @@ const useStyles = theme => ({
         display: 'flex',
         flex: '1 1 auto',
         justifyContent: 'center'
+    },
+    bbox: {
+        borderStyle: 'solid',
+        borderWidth: 3,
+        position: 'fixed',
+        color: 'green',
+        left: 50,
+        top: 150,
+        width: 50,
+        height: 50,
+        zIndex: 100,
     }
 });
 
@@ -106,6 +117,8 @@ class PdfFigureView extends React.Component {
                     <button className={classes.btn} onClick={this.goToNextPage}>Next Page</button>
                     <button className={classes.btn} onClick={this.scaleUp}>Scale Up</button>
                 </nav>
+
+                <div className={classes.bbox}></div>
                 <div className={classes.pdf}>
                     <Document
                         className={classes.document}
@@ -123,7 +136,6 @@ class PdfFigureView extends React.Component {
                     </Document>
 
                 </div>
-
             </div>
         );
     }

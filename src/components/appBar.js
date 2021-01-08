@@ -55,21 +55,6 @@ function AppBar({d}){
         input.click();
     }
 
-    const uploadClickJson = () => {
-        const input = document.createElement('input');
-        const {updateJson} = d;
-        input.type = 'file';
-        input.accept = '*.json';
-        input.onchange = e => {
-            const file = e.target.files[0];
-            updateJson(file);
-            // console.log(URL.createObjectURL(file))
-            // setVideoName(file.name);
-            // setVideoSrc(URL.createObjectURL(file));
-            // setFileObj(file);
-        }
-        input.click();
-    }
 
     return (<div className={classes.bar_root}>
         <img className={classes.logo} src={logo} alt=""/>
