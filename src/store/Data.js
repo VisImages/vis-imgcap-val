@@ -31,6 +31,7 @@ class Data {
 
 
     @action updateNumPages = numPages => {
+        this.current_state.pageNumber = 1;
         this.current_state.numPages = numPages;
     }
 
@@ -38,6 +39,7 @@ class Data {
         if (pageNumber >= 1 && pageNumber <= this.current_state.numPages)
             this.current_state.pageNumber = pageNumber;
     }
+
 
     @action updateScale = newScale => {
         console.log("update scale", newScale)

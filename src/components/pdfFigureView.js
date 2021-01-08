@@ -27,8 +27,7 @@ const useStyles = theme => ({
     },
     pdf: {
         display: 'block',
-        maxHeight: '100%',
-        maxWidth: '100%',
+        height: '95%',
         backgroundColor: 'gray',
         overflow: 'scroll',
     },
