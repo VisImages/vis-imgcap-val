@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core';
 import { inject, observer } from "mobx-react";
 
@@ -36,27 +36,29 @@ const useStyles = theme => ({
         flex: '1 1 auto'
     },
     page: {
-        // position: 'relative',
+        position: 'absolute',
         display: 'flex',
         flex: '1 1 auto',
         justifyContent: 'center'
     },
     bbox: {
-        borderStyle: 'solid',
-        borderWidth: 3,
-        position: 'fixed',
-        color: 'green',
-        left: 50,
-        top: 150,
-        width: 50,
-        height: 50,
-        zIndex: 100,
+        position: 'absolute'
     }
 });
 
 @inject('d')
 @observer
 class PdfFigureView extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            dimensions: {
+                height: 1,
+                width: 1,
+            }
+        }
+    }
+
 
     onDocumentLoadSuccess = ({ numPages }) => {
         console.log("pages:", numPages);
@@ -65,6 +67,12 @@ class PdfFigureView extends React.Component {
         // this.setState({ numPages });
         console.log("metaaaa", this.props.d.current_state)
     };
+
+    onPageLoadSuccess = ({height, width}) => {
+        console.log(height, width);
+        this.setState({dimensions: {height: height, width, width}});
+        console.log(this.state);
+    }
 
     // goToPrevPdf = () => {
     //   const {updatePdfNumber} = this.props.d;
@@ -103,6 +111,7 @@ class PdfFigureView extends React.Component {
         console.log(pdf)
         console.log("render component", this.props.d.current_state);
         const { pageNumber, numPages } = this.props.d.current_state;
+        const {currentBox} = this.props.d;
 
 
         return (
@@ -116,8 +125,6 @@ class PdfFigureView extends React.Component {
                     <button className={classes.btn} onClick={this.goToNextPage}>Next Page</button>
                     <button className={classes.btn} onClick={this.scaleUp}>Scale Up</button>
                 </nav>
-
-                <div className={classes.bbox}></div>
                 <div className={classes.pdf}>
                     <Document
                         className={classes.document}
@@ -130,8 +137,22 @@ class PdfFigureView extends React.Component {
                             width={680}
                             scale={this.props.d.current_state.scale}
                             className={classes.page}
+                            onLoadSuccess={this.onPageLoadSuccess}
                         // width = {classes.page.width}
-                        />
+                        >      
+                            {currentBox.length !== 0 && <div className={classes.bbox}
+                                style={
+                                    {
+                                    left: `${100 * currentBox[0] / this.state.dimensions.width}%`,
+                                    top: `${100 * currentBox[1] / this.state.dimensions.height}%`,
+                                    width: `${100 * (currentBox[2] - currentBox[0]) / this.state.dimensions.width}%`,
+                                    height: `${100 * (currentBox[3] - currentBox[1]) / this.state.dimensions.height}%`,
+                                    // borderColor: ColorStyles[value.visType],
+                                    borderWidth: '2px',
+                                    borderStyle: 'solid',
+                                    // visibility: value.visibility,
+                                    }}></div>}
+                        </Page>
                     </Document>
 
                 </div>

@@ -13,6 +13,8 @@ class Data {
         // console.log(this.paperList);
     }
     @observable current_state = {}
+    @observable data_base = [];
+    @observable data_state = {};
 
     initState() {
         this.current_state = {
@@ -20,9 +22,16 @@ class Data {
             pageNumber: 1,
             numPages: 0,
             scale: 1,
-            visimages_data: [],
             paperid: -1,
-        }
+        };
+        this.data_state = {
+            loaded: false,
+            currentIndex: -1,
+            confirmed: false,
+            allconfirmed: false,
+            saved: false
+        };
+        this.data_base = [];
     }
 
     readMeta = () => {
@@ -51,7 +60,14 @@ class Data {
         this.current_state.paper = file;
         this.current_state.scale = 1;
         this.current_state.paperid = file.name.split('.')[0];
-        this.current_state.visimages_data = this.metaData[this.current_state.paperid]
+        if (this.metaData.hasOwnProperty(this.current_state.paperid)){
+            this.data_state.loaded = true;
+            if (this.metaData[this.current_state.paperid].length > 0)
+                this.data_state.currentIndex = 0;
+            else
+                this.data_state.currentIndex = -1;
+        }
+        this.data_base = this.metaData[this.current_state.paperid]
     };
 
     @computed get updatePdfUrl() {
@@ -60,16 +76,22 @@ class Data {
 
     @computed get annoList() {
         let annoList = [];
-        for (let i = 0; i < this.current_state.visimages_data.length; i++) {
-            annoList.push(this.current_state.visimages_data[i].bbox.join(','));
+        for (let i = 0; i < this.data_base.length; i++) {
+            annoList.push(this.data_base[i].bbox);
         }
         return annoList;
     }
 
+    @computed get currentBox() {
+        if(this.data_base.length > 0 && this.data_state.currentIndex >= 0)
+            return this.data_base[this.data_state.currentIndex].bbox;
+        return [];
+    }
+
     @computed get captionList() {
         let captionList = [];
-        for (let i = 0; i < this.current_state.visimages_data.length; i++) {
-            captionList.push(this.current_state.visimages_data[i].caption_text);
+        for (let i = 0; i < this.data_base.length; i++) {
+            captionList.push(this.data_base[i].caption_text);
         }
         return captionList;
     }

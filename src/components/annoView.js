@@ -12,22 +12,35 @@ const useStyles = makeStyles(theme => ({
         height: '100%',
         overflowY: 'scroll',
     },
-    card: {
-        margin: '5px 10px 5px 10px',
-        width: '80%'
-    },
-    button: {
-        width: '5%',
-        height: '5%',
-    },
     main: {
+        display: 'flex',
+        margin: '5px 10px 5px 10px',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    card: {
+        display: 'flex',
+        width: '100%'
+    },
+    caption : {
+        padding: '10px',
+        width: '90%'
     },
     buttonGroup: {
         display: 'flex',
+        width: '10%',
         flexDirection: 'column',
-        flexDirection: 'row-reverse',
+        flexWrap: 'wrap',
+        justifyItems: 'center',
+        alignItems: 'center'
+    },
+    button: {
+        width: '50%',
+        height: '50%',
     },
     confirm: {
+        width: '10%',
+        padding: '10px',
         margin: "0px 10px 0px 10px",
     }
 }))
@@ -40,19 +53,19 @@ function AnnoView({ d }) {
         {d.captionList.map((value, index) =>
             <div className={classes.main}>
                 <Card className={classes.card} key={index}>
-                    <Typography className={classes.card} variant='h4'>{value}</Typography>
+                    <Typography className={classes.caption}>{value}</Typography>
+                    <Container className={classes.buttonGroup}>
+                        <img className={classes.button} src={addlogo} alt=""></img>
+                        <img className={classes.button} src={deletelogo} alt=""></img>
+                    </Container>
                 </Card>
-                <Container className={classes.buttonGroup}>
-                    <img className={classes.button} src={addlogo} alt=""></img>
-                    <img className={classes.button} src={deletelogo} alt=""></img>
-                </Container>
                 <Button className={classes.confirm}>confirm</Button>
             </div>
         )}
         {d.annoList.map((value, index) =>
             <div className={classes.main}>
                 <Card className={classes.card} key={index}>
-                    <Typography className={classes.card} variant='h4'>{value}</Typography>
+                    <Typography className={classes.card} variant='h4'>{value.join(',')}</Typography>
                 </Card>
             </div>
         )}
