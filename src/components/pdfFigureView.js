@@ -144,7 +144,7 @@ class PdfFigureView extends React.Component {
                         >
                             <Page
                                 pageNumber={this.props.d.current_state.pageNumber}
-                                width={pdf_width}
+                                width={this.props.d.current_state.pdfWidth}
                                 scale={this.props.d.current_state.scale}
                                 className={classes.page}
                                 onLoadSuccess={this.onPageLoadSuccess}

@@ -23,6 +23,7 @@ class Data {
             numPages: 0,
             scale: 1,
             paperid: -1,
+            pdfWidth: 800,
         };
         this.data_state = {
             loaded: false,
@@ -59,19 +60,21 @@ class Data {
         this.current_state.paper = file;
         this.current_state.scale = 1;
         this.current_state.paperid = file.name.split('.')[0];
-        if (this.metaData.hasOwnProperty(this.current_state.paperid)){
+        if (this.metaData.hasOwnProperty(this.current_state.paperid)) {
             this.data_state.loaded = true;
-            if (this.metaData[this.current_state.paperid].length > 0){
+            if (this.metaData[this.current_state.paperid].length > 0) {
                 this.data_state.currentIndex = 0;
                 this.current_state.pageNumber = this.metaData[this.current_state.paperid][0].page;
+                this.current_state.pdfWidth = this.metaData[this.current_state.paperid][0].width
             }
-                
-            else{
+
+            else {
                 this.current_state.pageNumber = 1;
                 this.data_state.currentIndex = -1;
             }
         }
         this.data_base = this.metaData[this.current_state.paperid]
+        console.log(this.data_base)
     };
 
     @computed get updatePdfUrl() {
@@ -87,7 +90,7 @@ class Data {
     }
 
     @computed get currentBox() {
-        if(this.data_base.length > 0 && this.data_state.currentIndex >= 0)
+        if (this.data_base.length > 0 && this.data_state.currentIndex >= 0)
             return this.data_base[this.data_state.currentIndex].bbox;
         return [];
     }
