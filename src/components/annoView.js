@@ -8,7 +8,6 @@ const useStyles = makeStyles(theme => ({
     root: {
         flexBasis: 1,
         flexGrow: 1,
-        maxWidth: '50%',
         height: '100%',
         overflowY: 'scroll',
     },
