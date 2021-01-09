@@ -5,10 +5,11 @@ import { inject, observer } from "mobx-react";
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import { SlowMotionVideo } from '@material-ui/icons';
 
+const pdf_width = 800;
+
 const useStyles = theme => ({
     root: {
-        flexGrow: 1,
-        flexBasis: 1,
+        width: pdf_width,
         position: 'relative',
         maxWidth: '50%',
         display: 'block',
@@ -33,9 +34,9 @@ const useStyles = theme => ({
         overflow: 'scroll',
     },
     pdf_container: {
-        left: '50%',
-        marginRight: '-50%',
-        transform: 'translate(-50%, 0)',
+        // left: '50%',
+        // marginRight: '-50%',
+        // transform: 'translate(-50%, 0)',
         position: 'absolute',
         display: 'flex'
     },
@@ -143,7 +144,7 @@ class PdfFigureView extends React.Component {
                         >
                             <Page
                                 pageNumber={this.props.d.current_state.pageNumber}
-                                width={680}
+                                width={pdf_width}
                                 scale={this.props.d.current_state.scale}
                                 className={classes.page}
                                 onLoadSuccess={this.onPageLoadSuccess}
