@@ -154,10 +154,14 @@ class PdfFigureView extends React.Component {
                         {currentBox.length !== 0 && <div className={classes.bbox}
                             style={
                                 {
-                                left: `${100 * currentBox[0] * pdf_width / this.state.dimensions.width}%`,
-                                top: `${100 * currentBox[1] * pdf_width / this.state.dimensions.height}%`,
-                                width: `${100 * (currentBox[2] - currentBox[0]) * pdf_width / this.state.dimensions.width}%`,
-                                height: `${100 * (currentBox[3] - currentBox[1]) * pdf_width / this.state.dimensions.height}%`,
+                                // left: `${100 * currentBox[0] * pdf_width / this.state.dimensions.width}%`,
+                                // top: `${100 * currentBox[1] * pdf_width / this.state.dimensions.height}%`,
+                                // width: `${100 * (currentBox[2] - currentBox[0]) * pdf_width / this.state.dimensions.width}%`,
+                                // height: `${100 * (currentBox[3] - currentBox[1]) * pdf_width / this.state.dimensions.height}%`,
+                                left: `${100 * currentBox[0]}%`,
+                                top: `${100 * currentBox[1]}%`,
+                                width: `${100 * (currentBox[2] - currentBox[0])}%`,
+                                height: `${100 * (currentBox[3] - currentBox[1])}%`,
                                 // borderColor: ColorStyles[value.visType],
                                 borderWidth: '2px',
                                 borderStyle: 'solid',
