@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         width: '100%'
     },
-    caption : {
+    caption: {
         padding: '10px',
         width: '90%'
     },
@@ -46,26 +46,20 @@ const useStyles = makeStyles(theme => ({
 
 
 function AnnoView({ d }) {
+    const { onAdd,onDelete,onPageNumber } = d
     console.log(d.current_state);
     const classes = useStyles();
     return <div className={classes.root}>
         {d.captionList.map((value, index) =>
             <div className={classes.main}>
                 <Card className={classes.card} key={index}>
-                    <Typography className={classes.caption}>{value}</Typography>
+                    <Typography className={classes.caption} onClick={onPageNumber.bind(this,index)}>{value}</Typography>
                     <Container className={classes.buttonGroup}>
-                        <img className={classes.button} src={addlogo} alt=""></img>
-                        <img className={classes.button} src={deletelogo} alt=""></img>
+                        <img className={classes.button} src={addlogo} alt="" onClick={onAdd.bind(this,index)}></img>
+                        <img className={classes.button} src={deletelogo} alt="" onClick={onDelete.bind(this,index)}></img>
                     </Container>
                 </Card>
                 <Button className={classes.confirm}>confirm</Button>
-            </div>
-        )}
-        {d.annoList.map((value, index) =>
-            <div className={classes.main}>
-                <Card className={classes.card} key={index}>
-                    <Typography className={classes.card} variant='h4'>{value.join(',')}</Typography>
-                </Card>
             </div>
         )}
     </div>

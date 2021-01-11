@@ -23,7 +23,6 @@ class Data {
             numPages: 0,
             scale: 1,
             paperid: -1,
-            pdfWidth: 800,
         };
         this.data_state = {
             loaded: false,
@@ -56,6 +55,33 @@ class Data {
             this.current_state.scale = newScale;
     }
 
+
+    @action onAdd = (index,e) => {
+        this.data_state.currentIndex = index + 1;
+        const pageNumber = this.data_base[index].page;
+        this.data_base.splice(
+            this.data_state.currentIndex,0,{
+                "page":pageNumber,
+                "bbox":[0,0,0.1,0.1],
+                "caption_text":"new caption",
+            });
+        this.current_state.pageNumber = this.data_base[index].page;
+        console.log(this.data_base)
+    }
+
+    @action onDelete = (index,e) => {
+        console.log(index)
+        this.data_base.splice(index,1);
+        this.data_state.currentIndex = index - 1;
+        if(index>0)this.current_state.pageNumber = this.data_base[index-1].page;
+        //console.log(this.current_state.pageNumber)
+    }
+
+    @action onPageNumber = (index,e) => {
+        this.updatePageNumber(this.data_base[index].page)
+        this.data_state.currentIndex=index
+    }
+
     openPdf = (file) => {
         this.current_state.paper = file;
         this.current_state.scale = 1;
@@ -65,7 +91,6 @@ class Data {
             if (this.metaData[this.current_state.paperid].length > 0) {
                 this.data_state.currentIndex = 0;
                 this.current_state.pageNumber = this.metaData[this.current_state.paperid][0].page;
-                this.current_state.pdfWidth = this.metaData[this.current_state.paperid][0].width
             }
 
             else {
@@ -74,7 +99,6 @@ class Data {
             }
         }
         this.data_base = this.metaData[this.current_state.paperid]
-        console.log(this.data_base)
     };
 
     @computed get updatePdfUrl() {
