@@ -46,14 +46,14 @@ const useStyles = makeStyles(theme => ({
 
 
 function AnnoView({ d }) {
-    const { onAdd,onDelete,onPageNumber } = d
+    const {onAdd, onDelete, onListIndex} = d
     console.log(d.current_state);
     const classes = useStyles();
     return <div className={classes.root}>
         {d.captionList.map((value, index) =>
             <div className={classes.main}>
                 <Card className={classes.card} key={index}>
-                    <Typography className={classes.caption} onClick={onPageNumber.bind(this,index)}>{value}</Typography>
+                    <Typography className={classes.caption} onClick={onListIndex.bind(this,index)}>{value}</Typography>
                     <Container className={classes.buttonGroup}>
                         <img className={classes.button} src={addlogo} alt="" onClick={onAdd.bind(this,index)}></img>
                         <img className={classes.button} src={deletelogo} alt="" onClick={onDelete.bind(this,index)}></img>

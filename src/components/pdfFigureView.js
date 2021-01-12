@@ -4,6 +4,8 @@ import { inject, observer } from "mobx-react";
 
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import { SlowMotionVideo } from '@material-ui/icons';
+import clsx from 'clsx';
+import {Rnd} from 'react-rnd';
 
 const pdf_width = 800;
 
@@ -50,7 +52,11 @@ const useStyles = theme => ({
         justifyContent: 'center'
     },
     bbox: {
-        position: 'absolute'
+        position: 'absolute',
+        color: 'black'
+    },
+    resize: {
+        resize: 'both'
     }
 });
 
@@ -63,6 +69,12 @@ class PdfFigureView extends React.Component {
             dimensions: {
                 height: 1,
                 width: 1,
+            },
+            box:{
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
             }
         }
     }
@@ -83,6 +95,7 @@ class PdfFigureView extends React.Component {
         console.log(this.state);
         console.log("metaaaa", this.props.d.current_state)
     }
+
 
     // goToPrevPdf = () => {
     //   const {updatePdfNumber} = this.props.d;
@@ -120,7 +133,8 @@ class PdfFigureView extends React.Component {
         const pdf = this.props.d.updatePdfUrl;
         console.log(pdf)
         console.log("render component", this.props.d.current_state);
-        const {currentBox} = this.props.d;
+        const {currentBox} = this.props.d.data_state;
+        const {setCurrentBox} = this.props.d;
 
 
         return (
@@ -151,22 +165,53 @@ class PdfFigureView extends React.Component {
                             // width = {classes.page.width}
                             />
                         </Document>
-                        {currentBox.length !== 0 && <div className={classes.bbox}
-                            style={
-                                {
-                                // left: `${100 * currentBox[0] * pdf_width / this.state.dimensions.width}%`,
-                                // top: `${100 * currentBox[1] * pdf_width / this.state.dimensions.height}%`,
-                                // width: `${100 * (currentBox[2] - currentBox[0]) * pdf_width / this.state.dimensions.width}%`,
-                                // height: `${100 * (currentBox[3] - currentBox[1]) * pdf_width / this.state.dimensions.height}%`,
-                                left: `${100 * currentBox[0]}%`,
-                                top: `${100 * currentBox[1]}%`,
-                                width: `${100 * (currentBox[2] - currentBox[0])}%`,
-                                height: `${100 * (currentBox[3] - currentBox[1])}%`,
-                                // borderColor: ColorStyles[value.visType],
-                                borderWidth: '2px',
-                                borderStyle: 'solid',
-                                // visibility: value.visibility,
-                                }}></div>}
+                        {/* {currentBox.length !== 0 && 
+                            <div className={clsx(classes.bbox, classes.resize)}
+                                style={
+                                    {
+                                    // left: `${100 * currentBox[0] * pdf_width / this.state.dimensions.width}%`,
+                                    // top: `${100 * currentBox[1] * pdf_width / this.state.dimensions.height}%`,
+                                    // width: `${100 * (currentBox[2] - currentBox[0]) * pdf_width / this.state.dimensions.width}%`,
+                                    // height: `${100 * (currentBox[3] - currentBox[1]) * pdf_width / this.state.dimensions.height}%`,
+                                    left: `${100 * currentBox[0]}%`,
+                                    top: `${100 * currentBox[1]}%`,
+                                    width: `${100 * (currentBox[2] - currentBox[0])}%`,
+                                    height: `${100 * (currentBox[3] - currentBox[1])}%`,
+                                    // borderColor: ColorStyles[value.visType],
+                                    borderWidth: '2px',
+                                    borderStyle: 'solid',
+                                    // visibility: value.visibility,
+                                    }}>
+                            </div>} */}
+                        {currentBox.length !== 0 && 
+                            <Rnd className={classes.bbox}
+                                size={{
+                                        width: this.state.dimensions.width*(currentBox[2] - currentBox[0]),
+                                        height: this.state.dimensions.height*(currentBox[3] - currentBox[1]),
+                                    }}
+                                position={{
+                                    x: this.state.dimensions.width*currentBox[0],
+                                    y: this.state.dimensions.height*currentBox[1],
+                                }}
+                                onDragStop={(me, de) => {
+                                    const delta = {
+                                        width: 0,
+                                        height: 0
+                                    };
+                                    const position = {
+                                        x:de.x, 
+                                        y:de.y
+                                    };
+                                    setCurrentBox(delta, position, this.state.dimensions)
+                                }}
+                                onResizeStop={(e, direction, ref, delta, position) => {
+                                    setCurrentBox(delta, position, this.state.dimensions)
+                                  }}
+                                style={{borderWidth: '2px',
+                                    borderStyle: 'solid',
+                                    color:'black'}}
+                                >
+                            </Rnd>}
                     </div>
                 </div>
             </div>
