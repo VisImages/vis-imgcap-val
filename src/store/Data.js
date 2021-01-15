@@ -28,7 +28,7 @@ class Data {
             loaded: false,
             currentIndex: -1,
             confirmed: false,
-            currentBox: [0,0,0.1,0.1],
+            currentBox: [0, 0, 0.1, 0.1],
             allconfirmed: false,
             saved: false
         };
@@ -57,44 +57,53 @@ class Data {
     }
 
 
-    @action onAdd = (index,e) => {
+    @action onAdd = (index, e) => {
         this.data_state.currentIndex = index + 1;
         const pageNumber = this.data_base[index].page;
         this.data_base.splice(
-            this.data_state.currentIndex,0,{
-                page:pageNumber,
-                bbox:[0,0,0.1,0.1],
-                caption_text:"new caption",
-            });
+            index + 1, 0, {
+            //name:
+            page: pageNumber,
+            bbox: [0, 0, 0.1, 0.1],
+            caption_text: "new caption",
+            confirmed: false,
+        });
         this.current_state.pageNumber = this.data_base[index].page;
-        console.log(this.data_base)
     }
 
-    @action onDelete = (index,e) => {
-        this.data_base.splice(index,1);
+    @action onDelete = (index, e) => {
+        this.data_base.splice(index, 1);
         this.data_state.currentIndex = index - 1;
-        if(index>0)this.current_state.pageNumber = this.data_base[index-1].page;
+        if (index > 0) this.current_state.pageNumber = this.data_base[index - 1].page;
         //console.log(this.current_state.pageNumber)
     }
 
-    @action onListIndex = (index,e) => {
+    @action onListIndex = (index, e) => {
         this.updatePageNumber(this.data_base[index].page);
         this.data_state.currentBox = this.data_base[index].bbox;
-        this.data_state.currentIndex=index;
+        this.data_state.currentIndex = index;
     }
 
     @action setCurrentBox = (delta, position, dimensions) => {
-        const {width, height} = delta;
-        const {x, y} = position;
-        const {currentBox} = this.data_state;
-        console.log(x, y, width, height);
+        const { width, height } = delta;
+        const { x, y } = position;
+        const { currentBox } = this.data_state;
+        //console.log(x, y, width, height);
         this.data_state.currentBox = [
-            x/dimensions.width,
-            y/dimensions.height,
-            currentBox[2] - currentBox[0] + width/dimensions.width + x/dimensions.width,
-            currentBox[3] - currentBox[1] + height/dimensions.height + y/dimensions.height,
+            x / dimensions.width,
+            y / dimensions.height,
+            currentBox[2] - currentBox[0] + width / dimensions.width + x / dimensions.width,
+            currentBox[3] - currentBox[1] + height / dimensions.height + y / dimensions.height,
         ]
-        console.log(this.data_state.currentBox);
+        //console.log(this.data_state.currentBox);
+    }
+
+    @action checkAllConfirmed = () => {
+        let flag = true;
+        this.data_base.forEach(element => {
+            if(element.confirmed == false)flag =false
+        });
+        if(flag) alert('All confirmed!')
     }
 
     openPdf = (file) => {
@@ -120,14 +129,6 @@ class Data {
     @computed get updatePdfUrl() {
         return this.current_state.paper;
     };
-
-    @computed get annoList() {
-        let annoList = [];
-        for (let i = 0; i < this.data_base.length; i++) {
-            annoList.push(this.data_base[i].bbox);
-        }
-        return annoList;
-    }
 
     @computed get captionList() {
         let captionList = [];

@@ -90,10 +90,10 @@ class PdfFigureView extends React.Component {
 
     onPageLoadSuccess = (info) => {
         const {height, width} = info;
-        console.log(info);
+        //console.log(info);
         this.setState({dimensions: {height: height, width, width}});
-        console.log(this.state);
-        console.log("metaaaa", this.props.d.current_state)
+        //console.log(this.state);
+        //console.log("metaaaa", this.props.d.current_state)
     }
 
 
