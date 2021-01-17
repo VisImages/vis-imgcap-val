@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 
 function AnnoView({ d }) {
     let captionList = d.captionList
-    const { onAdd, onDelete, onListIndex ,checkAllConfirmed} = d;
+    const { onAdd, onDelete, onListIndex, checkAllConfirmed } = d;
 
     const onChange = (index, e) => {
         console.log(e.target.value)
@@ -57,11 +57,11 @@ function AnnoView({ d }) {
     const onConfirm = index => {
         //this.data_state.confirmed = true;
         console.log(captionList[index])
-        if(d.data_base[index].confirmed)
-            d.data_base[index].confirmed = false;
-        else{
+        d.data_base[index].confirmed = !d.data_base[index].confirmed;
+        if (d.data_base[index].confirmed){
             d.data_base[index].confirmed = true;
             d.data_base[index].caption_text = captionList[index];
+            d.data_base[index].bbox = d.data_state.currentBox
             checkAllConfirmed();
         }
     }
@@ -78,7 +78,7 @@ function AnnoView({ d }) {
                         <img className={classes.button} src={deletelogo} alt="" onClick={onDelete.bind(this, index)}></img>
                     </Container>
                 </Card>
-                <Button className={classes.confirm} variant="contained" onClick={onConfirm.bind(this, index) } color={d.data_base[index].confirmed?'primary':'default'}>confirm</Button>
+                <Button className={classes.confirm} variant="contained" onClick={onConfirm.bind(this, index)} color={d.data_base[index].confirmed ? 'primary' : 'default'}>confirm</Button>
             </div>
         )}
     </div>

@@ -1,5 +1,6 @@
 import { action, computed, observable } from "mobx";
-import viscaption_data from "../resource/visimages_cap.json"
+import viscaption_data from "../resource/visimages_cap.json";
+import { saveAs } from "file-saver";
 
 class Data {
     constructor(root) {
@@ -74,7 +75,10 @@ class Data {
     @action onDelete = (index, e) => {
         this.data_base.splice(index, 1);
         this.data_state.currentIndex = index - 1;
-        if (index > 0) this.current_state.pageNumber = this.data_base[index - 1].page;
+        if (index > 0) {
+            this.current_state.pageNumber = this.data_base[index - 1].page;
+            this.data_state.currentBox = this.data_base[index - 1].bbox;
+        }
         //console.log(this.current_state.pageNumber)
     }
 
@@ -101,9 +105,11 @@ class Data {
     @action checkAllConfirmed = () => {
         let flag = true;
         this.data_base.forEach(element => {
-            if(element.confirmed == false)flag =false
+            if (element.confirmed == false) flag = false;
         });
-        if(flag) alert('All confirmed!')
+        if (flag) {
+            if (window.confirm("你确定要保存数据吗？")) { this.saveFile(); }
+        }
     }
 
     openPdf = (file) => {
@@ -147,7 +153,10 @@ class Data {
     };
 
     saveFile = () => {
-
+        const data = JSON.stringify(this.data_base);
+        let blob = new Blob([data], { type: 'text/json' });
+        let filename = this.current_state.paperid + '.json';
+        saveAs(blob, filename);
     };
 }
 

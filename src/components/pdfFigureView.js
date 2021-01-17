@@ -5,7 +5,7 @@ import { inject, observer } from "mobx-react";
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import { SlowMotionVideo } from '@material-ui/icons';
 import clsx from 'clsx';
-import {Rnd} from 'react-rnd';
+import { Rnd } from 'react-rnd';
 
 const pdf_width = 800;
 
@@ -70,7 +70,7 @@ class PdfFigureView extends React.Component {
                 height: 1,
                 width: 1,
             },
-            box:{
+            box: {
                 x: 0,
                 y: 0,
                 width: 0,
@@ -89,9 +89,9 @@ class PdfFigureView extends React.Component {
     };
 
     onPageLoadSuccess = (info) => {
-        const {height, width} = info;
+        const { height, width } = info;
         //console.log(info);
-        this.setState({dimensions: {height: height, width, width}});
+        this.setState({ dimensions: { height: height, width, width } });
         //console.log(this.state);
         //console.log("metaaaa", this.props.d.current_state)
     }
@@ -133,8 +133,8 @@ class PdfFigureView extends React.Component {
         const pdf = this.props.d.updatePdfUrl;
         console.log(pdf)
         console.log("render component", this.props.d.current_state);
-        const {currentBox} = this.props.d.data_state;
-        const {setCurrentBox} = this.props.d;
+        const { currentBox } = this.props.d.data_state;
+        const { setCurrentBox } = this.props.d;
 
 
         return (
@@ -183,15 +183,15 @@ class PdfFigureView extends React.Component {
                                     // visibility: value.visibility,
                                     }}>
                             </div>} */}
-                        {currentBox.length !== 0 && 
+                        {currentBox.length !== 0 &&
                             <Rnd className={classes.bbox}
                                 size={{
-                                        width: this.state.dimensions.width*(currentBox[2] - currentBox[0]),
-                                        height: this.state.dimensions.height*(currentBox[3] - currentBox[1]),
-                                    }}
+                                    width: this.state.dimensions.width * (currentBox[2] - currentBox[0]),
+                                    height: this.state.dimensions.height * (currentBox[3] - currentBox[1]),
+                                }}
                                 position={{
-                                    x: this.state.dimensions.width*currentBox[0],
-                                    y: this.state.dimensions.height*currentBox[1],
+                                    x: this.state.dimensions.width * currentBox[0],
+                                    y: this.state.dimensions.height * currentBox[1],
                                 }}
                                 onDragStop={(me, de) => {
                                     const delta = {
@@ -199,19 +199,40 @@ class PdfFigureView extends React.Component {
                                         height: 0
                                     };
                                     const position = {
-                                        x:de.x, 
-                                        y:de.y
+                                        x: de.x,
+                                        y: de.y
                                     };
                                     setCurrentBox(delta, position, this.state.dimensions)
                                 }}
                                 onResizeStop={(e, direction, ref, delta, position) => {
                                     setCurrentBox(delta, position, this.state.dimensions)
-                                  }}
-                                style={{borderWidth: '2px',
+                                }}
+                                style={{
+                                    borderWidth: '2px',
                                     borderStyle: 'solid',
-                                    color:'black'}}
-                                >
+                                    color: 'black'
+                                }}
+                            >
                             </Rnd>}
+                        {this.props.d.data_base.map((value, index) =>
+                            <Rnd className={clsx(classes.bbox)}
+                                disableDragging
+                                size={{
+                                    width: this.state.dimensions.width * (value.bbox[2] - value.bbox[0]),
+                                    height: this.state.dimensions.height * (value.bbox[3] - value.bbox[1]),
+                                }}
+                                position={{
+                                    x: this.state.dimensions.width * value.bbox[0],
+                                    y: this.state.dimensions.height * value.bbox[1],
+                                }}
+                                style={
+                                    {
+                                        borderWidth: '2px',
+                                        borderStyle: 'solid',
+                                        visibility: value.confirmed && value.page == this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
+                                        borderColor: 'green',
+                                    }}>
+                            </Rnd>)}
                     </div>
                 </div>
             </div>
