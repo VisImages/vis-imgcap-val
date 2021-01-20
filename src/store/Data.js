@@ -24,6 +24,10 @@ class Data {
             numPages: 0,
             scale: 1,
             paperid: -1,
+            dimensions:{
+                width: 1,
+                height: 1,
+            }
         };
         this.data_state = {
             loaded: false,
@@ -40,6 +44,10 @@ class Data {
         this.metaData = viscaption_data;
     }
 
+    @action updateDim = (width, height) => {
+        this.current_state.dimensions.width = width;
+        this.current_state.dimensions.height = height;
+    }
 
     @action updateNumPages = numPages => {
         this.current_state.numPages = numPages;
@@ -54,8 +62,10 @@ class Data {
 
     @action updateScale = newScale => {
         console.log("update scale", newScale)
-        if (newScale > 0 && newScale < 4)
+        if (newScale > 0 && newScale < 4){
             this.current_state.scale = newScale;
+        }
+            
     }
 
 
@@ -98,17 +108,20 @@ class Data {
         this.data_state.confirmed = this.data_base[index].confirmed;
     }
 
-    @action setCurrentBox = (delta, position, dimensions) => {
+    @action setCurrentBox = (delta, position) => {
         const { width, height } = delta;
         const { x, y } = position;
         const { currentBox } = this.data_state;
         //console.log(x, y, width, height);
         this.data_state.currentBox = [
-            x / dimensions.width,
-            y / dimensions.height,
-            currentBox[2] - currentBox[0] + width / dimensions.width + x / dimensions.width,
-            currentBox[3] - currentBox[1] + height / dimensions.height + y / dimensions.height,
+            x / this.current_state.dimensions.width,
+            y / this.current_state.dimensions.height,
+            currentBox[2] - currentBox[0] + width / this.current_state.dimensions.width + x / this.current_state.dimensions.width,
+            currentBox[3] - currentBox[1] + height / this.current_state.dimensions.height + y / this.current_state.dimensions.height,
         ]
+        this.data_state.confirmed = false;
+        this.data_base[this.data_state.currentIndex].confirmed = false;
+        console.log("data base",this.data_base);
         //console.log(this.data_state.currentBox);
     }
 

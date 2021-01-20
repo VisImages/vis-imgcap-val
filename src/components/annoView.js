@@ -30,6 +30,11 @@ const useStyles = makeStyles(theme => ({
         width: '90%',
         color: 'blue',
     },
+    captionConfirmed: {
+        padding: '10px',
+        width: '90%',
+        color: 'green',
+    },
     buttonGroup: {
         display: 'flex',
         width: '10%',
@@ -57,6 +62,8 @@ function AnnoView({ d }) {
     const onChange = (index, e) => {
         console.log(e.target.value)
         captionList[index] = e.target.value;
+        d.data_base[index].confirmed = false;
+        d.data_state.allconfirmed = false;
     };
 
     const onConfirm = index => {
@@ -81,13 +88,24 @@ function AnnoView({ d }) {
         {d.captionList.map((value, index) =>
             <div className={classes.main} key={index}>
                 <Card className={classes.card} key={new Date().getTime()}>
-                    <Input className={index === d.data_state.currentIndex ? classes.captionSelected : classes.caption} onClick={onListIndex.bind(this, index)} onChange={onChange.bind(this, index)} defaultValue={value} multiline></Input>
+                    <Input className={
+                        d.data_base[index].confirmed ? classes.captionConfirmed :
+                        (index === d.data_state.currentIndex ? classes.captionSelected : classes.caption)}
+                        onClick={onListIndex.bind(this, index)} 
+                        onChange={onChange.bind(this, index)} 
+                        defaultValue={value} multiline></Input>
                     <Container className={classes.buttonGroup}>
                         <img className={classes.button} src={addlogo} alt="" onClick={onAdd.bind(this, index)}></img>
                         <img className={classes.button} src={deletelogo} alt="" onClick={onDelete.bind(this, index)}></img>
                     </Container>
                 </Card>
-                <Button className={classes.confirm} variant="contained" onClick={onConfirm.bind(this, index)} color={d.data_base[index].confirmed ? 'primary' : 'default'}>confirm</Button>
+                <Button className={classes.confirm} 
+                    variant="contained" 
+                    onClick={onConfirm.bind(this, index)}
+                    disabled={d.data_base[index].confirmed}
+                    color={d.data_base[index].confirmed ? 'default' : 'primary'}>
+                    confirm
+                </Button>
             </div>
         )}
     </div>
