@@ -91,7 +91,7 @@ class PdfFigureView extends React.Component {
     onPageLoadSuccess = (info) => {
         const { height, width } = info;
         //console.log(info);
-        this.setState({ dimensions: { height: height, width, width } });
+        this.setState({ dimensions: { height: height, width: width } });
         //console.log(this.state);
         //console.log("metaaaa", this.props.d.current_state)
     }
@@ -133,8 +133,8 @@ class PdfFigureView extends React.Component {
         const pdf = this.props.d.updatePdfUrl;
         console.log(pdf)
         console.log("render component", this.props.d.current_state);
-        const { currentBox } = this.props.d.data_state;
-        const { setCurrentBox } = this.props.d;
+        const { currentBox, confirmed, currentIndex } = this.props.d.data_state;
+        const { setCurrentBox, onListIndex } = this.props.d;
 
 
         return (
@@ -210,13 +210,13 @@ class PdfFigureView extends React.Component {
                                 style={{
                                     borderWidth: '2px',
                                     borderStyle: 'solid',
-                                    color: 'black'
+                                    color: 'blue',
+                                    visibility: !confirmed || this.props.d.data_base[currentIndex].page === this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
                                 }}
                             >
                             </Rnd>}
                         {this.props.d.data_base.map((value, index) =>
                             <Rnd className={clsx(classes.bbox)}
-                                disableDragging
                                 size={{
                                     width: this.state.dimensions.width * (value.bbox[2] - value.bbox[0]),
                                     height: this.state.dimensions.height * (value.bbox[3] - value.bbox[1]),
@@ -225,12 +225,13 @@ class PdfFigureView extends React.Component {
                                     x: this.state.dimensions.width * value.bbox[0],
                                     y: this.state.dimensions.height * value.bbox[1],
                                 }}
+                                onClick={onListIndex.bind(this, index)}
                                 style={
                                     {
                                         borderWidth: '2px',
                                         borderStyle: 'solid',
-                                        visibility: value.confirmed && value.page == this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
-                                        borderColor: 'green',
+                                        visibility: index !== currentIndex && value.page === this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
+                                        borderColor: value.confirmed ? 'green' : 'grey',
                                     }}>
                             </Rnd>)}
                     </div>

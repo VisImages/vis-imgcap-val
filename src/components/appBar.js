@@ -1,15 +1,16 @@
 import React from 'react';
-import {inject, observer} from "mobx-react";
-import {makeStyles, CssBaseline} from "@material-ui/core";
+import { inject, observer } from "mobx-react";
+import { makeStyles, CssBaseline } from "@material-ui/core";
 import logo from '../resource/logo-visimages.png';
 import filelogo from '../resource/file-logo.svg';
+import save from '../resource/save.svg';
 import clsx from 'clsx';
 import { Update } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
     bar_root: {
         display: 'block',
-        position:'relative',
+        position: 'relative',
         width: '100%',
         height: '8%',
         backgroundColor: '#ADDFFF',
@@ -21,6 +22,13 @@ const useStyles = makeStyles(theme => ({
         left: '30px',
         top: '10%',
     },
+    save: {
+        float: 'left',
+        position: 'relative',
+        height: '60%',
+        left: '30px',
+        top: '17%',
+    },
     right: {
         float: 'right',
         left: '-30px',
@@ -31,15 +39,15 @@ const useStyles = makeStyles(theme => ({
         left: '-20px',
         right: '-20px'
     }
-  }));
+}));
 
 
-function AppBar({d}){
+function AppBar({ d }) {
     const classes = useStyles();
 
     const uploadClick = () => {
         const input = document.createElement('input');
-        const {openPdf} = d;
+        const { openPdf } = d;
         input.type = 'file';
         input.accept = '*.pdf';
         input.onchange = e => {
@@ -55,10 +63,25 @@ function AppBar({d}){
         input.click();
     }
 
+    const saveClick = () => {
+        const { saveFile } = d;
+        if (d.data_state.allconfirmed) {
+            if (d.data_state.saved) {
+                if (window.confirm("你已经保存过一次了，确定要继续保存吗？")) { saveFile(); }
+            } else {
+                saveFile();
+                d.data_state.saved = true;
+            }
+        } else {
+            alert("尚未有未确认的图片！");
+        }
+    }
+
 
     return (<div className={classes.bar_root}>
-        <img className={classes.logo} src={logo} alt=""/>
-        <img className={clsx(classes.logo, classes.right)} src={filelogo} onClick = {uploadClick} alt=""/>
+        <img className={classes.logo} src={logo} alt="" />
+        <img className={clsx(classes.logo, classes.right)} src={filelogo} onClick={uploadClick} alt="" />
+        <img className={clsx(classes.save, classes.right)} src={save} onClick={saveClick} alt="" />
     </div>);
 }
 

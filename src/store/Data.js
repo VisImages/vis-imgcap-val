@@ -31,7 +31,7 @@ class Data {
             confirmed: false,
             currentBox: [0, 0, 0.1, 0.1],
             allconfirmed: false,
-            saved: false
+            saved: false,
         };
         this.data_base = [];
     }
@@ -48,6 +48,7 @@ class Data {
     @action updatePageNumber = pageNumber => {
         if (pageNumber >= 1 && pageNumber <= this.current_state.numPages)
             this.current_state.pageNumber = pageNumber;
+        if (this.data_state.confirmed === false) this.data_base[this.data_state.currentIndex].page = pageNumber;
     }
 
 
@@ -60,16 +61,17 @@ class Data {
 
     @action onAdd = (index, e) => {
         this.data_state.currentIndex = index + 1;
-        const pageNumber = this.data_base[index].page;
         this.data_base.splice(
             index + 1, 0, {
             //name:
-            page: pageNumber,
+            page: this.current_state.pageNumber,
             bbox: [0, 0, 0.1, 0.1],
             caption_text: "new caption",
             confirmed: false,
         });
-        this.current_state.pageNumber = this.data_base[index].page;
+        this.data_state.currentBox = [0, 0, 0.1, 0.1];
+        this.data_state.confirmed = false;
+        this.checkAllConfirmed();
     }
 
     @action onDelete = (index, e) => {
@@ -78,14 +80,22 @@ class Data {
         if (index > 0) {
             this.current_state.pageNumber = this.data_base[index - 1].page;
             this.data_state.currentBox = this.data_base[index - 1].bbox;
+            this.data_state.confirmed = this.data_base[index - 1].confirmed;
+        } else if (this.data_base.length > 0) {
+            this.current_state.pageNumber = this.data_base[0].page;
+            this.data_state.currentBox = this.data_base[0].bbox;
+            this.data_state.confirmed = this.data_base[0].confirmed;
         }
         //console.log(this.current_state.pageNumber)
+        this.checkAllConfirmed();
     }
 
     @action onListIndex = (index, e) => {
+        if (this.data_state.currentIndex === index) return;
         this.updatePageNumber(this.data_base[index].page);
         this.data_state.currentBox = this.data_base[index].bbox;
         this.data_state.currentIndex = index;
+        this.data_state.confirmed = this.data_base[index].confirmed;
     }
 
     @action setCurrentBox = (delta, position, dimensions) => {
@@ -105,14 +115,15 @@ class Data {
     @action checkAllConfirmed = () => {
         let flag = true;
         this.data_base.forEach(element => {
-            if (element.confirmed == false) flag = false;
+            if (!element.confirmed) flag = false;
         });
         if (flag) {
-            if (window.confirm("你确定要保存数据吗？")) { this.saveFile(); }
+            this.data_state.allconfirmed = true;
         }
     }
 
     openPdf = (file) => {
+        this.initState();
         this.current_state.paper = file;
         this.current_state.scale = 1;
         this.current_state.paperid = file.name.split('.')[0];
