@@ -23,7 +23,7 @@ class Data {
             pageNumber: 1,
             numPages: 0,
             scale: 1,
-            paperid: -1,
+            paperid: 'paper',
             dimensions: {
                 width: 1,
                 height: 1,
@@ -33,7 +33,6 @@ class Data {
             loaded: false,
             currentIndex: -1,
             currentBox: [0, 0, 0.1, 0.1],
-            allconfirmed: false,
             saved: false,
         };
         this.data_base = [];
@@ -74,12 +73,11 @@ class Data {
             index + 1, 0, {
             //name:
             page: this.current_state.pageNumber,
-            bbox: [0, 0, 0.1, 0.1],
-            caption_text: "new caption",
+            bbox: [0.25, 0.25, 0.5, 0.5],
+            caption_text: "",
             confirmed: false,
         });
-        this.data_state.currentBox = [0, 0, 0.1, 0.1];
-        this.checkAllConfirmed();
+        this.data_state.currentBox = [0.25, 0.25, 0.5, 0.5];
     }
 
     @action onDelete = (index, e) => {
@@ -91,7 +89,6 @@ class Data {
             this.onListIndex(0);
         } else this.current_state.currentIndex = -1;
         //console.log(this.current_state.pageNumber)
-        this.checkAllConfirmed();
     }
 
     @action onListIndex = (index, e) => {
@@ -115,18 +112,18 @@ class Data {
             currentBox[3] - currentBox[1] + height / height_dimension + y / height_dimension,
         ]
         this.data_base[this.data_state.currentIndex].confirmed = false;
+        this.data_state.saved = false;
         console.log("data base", this.data_base);
         //console.log(this.data_state.currentBox);
     }
 
-    @action checkAllConfirmed = () => {
+
+    @computed get allConfirmed() {
         let flag = true;
         this.data_base.forEach(element => {
             if (!element.confirmed) flag = false;
         });
-        if (flag) {
-            this.data_state.allconfirmed = true;
-        }
+        return flag
     }
 
     openPdf = (file) => {
@@ -134,28 +131,15 @@ class Data {
         this.current_state.paper = file;
         this.current_state.scale = 1;
         this.current_state.paperid = file.name.split('.')[0];
-        if (this.metaData[this.current_state.paperid]) {
-            this.data_base = this.metaData[this.current_state.paperid];
-        } else {
-            this.data_base = [{
-                //name:
-                page: this.current_state.pageNumber,
-                bbox: [0, 0, 0.1, 0.1],
-                caption_text: "please add captions",
-                confirmed: false,
-            }]
-        }
+        this.data_state.loaded = true;
+        // this.data_state.saved = false;
+        this.current_state.pageNumber = 1;
         if (this.metaData.hasOwnProperty(this.current_state.paperid)) {
-            this.data_state.loaded = true;
-            if (this.metaData[this.current_state.paperid].length > 0) {
+            this.data_base = this.metaData[this.current_state.paperid];
+            if (this.data_base.length > 0) {
                 this.data_state.currentIndex = 0;
                 this.data_state.currentBox = this.data_base[0].bbox;
                 this.current_state.pageNumber = this.metaData[this.current_state.paperid][0].page;
-            }
-
-            else {
-                this.current_state.pageNumber = 1;
-                this.data_state.currentIndex = -1;
             }
         }
     };
@@ -185,6 +169,7 @@ class Data {
         let blob = new Blob([data], { type: 'text/json' });
         let filename = this.current_state.paperid + '.json';
         saveAs(blob, filename);
+        this.data_state.saved = true;
     };
 }
 

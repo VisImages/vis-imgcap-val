@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, Card, Input, Container, Button } from '@material-ui/core'
+import { makeStyles, Card, Input, Container, Button, Typography } from '@material-ui/core'
 import { inject, observer } from "mobx-react";
 import addlogo from '../resource/add.svg';
 import deletelogo from '../resource/delete.svg';
@@ -35,17 +35,26 @@ const useStyles = makeStyles(theme => ({
         width: '90%',
         color: 'green',
     },
+    nullButton: {
+        display: 'flex',
+        width: '100%',
+        height: '80px',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     buttonGroup: {
         display: 'flex',
         width: '10%',
         flexDirection: 'column',
         flexWrap: 'wrap',
-        justifyItems: 'center',
+        justifyContent: 'center',
         alignItems: 'center'
     },
     button: {
-        width: '50%',
-        height: '50%',
+        width: '30px',
+        height: '30px',
+        padding: '5px'
     },
     confirm: {
         width: '10%',
@@ -63,7 +72,6 @@ function AnnoView({ d }) {
         console.log(e.target.value)
         captionList[index] = e.target.value;
         d.data_base[index].confirmed = false;
-        d.data_state.allconfirmed = false;
     };
 
     const onConfirm = index => {
@@ -73,15 +81,22 @@ function AnnoView({ d }) {
         if (d.data_base[index].confirmed) {
             d.data_base[index].caption_text = captionList[index];
             d.data_base[index].bbox = d.data_state.currentBox;
-            checkAllConfirmed();
-        } else {
-            d.data_state.allconfirmed = false;
         }
     }
 
     console.log(d.current_state);
     const classes = useStyles();
     return <div className={classes.root}>
+        {d.data_base.length === 0 && d.data_state.loaded?
+            <div className={classes.nullButton}>
+                <img className={classes.button} 
+                    src={addlogo} 
+                    onClick={onAdd.bind(this, -1)} 
+                    alt="" />
+                <Typography style={{color: 'grey'}}>
+                    click to add first item
+                </Typography>
+            </div>: null}
         {d.captionList.map((value, index) =>
             <div className={classes.main} key={index}>
                 <Card className={classes.card} key={new Date().getTime()}>

@@ -30,13 +30,6 @@ const useStyles = makeStyles(theme => ({
         left: '30px',
         top: '10%',
     },
-    add: {
-        float: 'left',
-        position: 'relative',
-        height: '80%',
-        left: '30px',
-        top: '10%',
-    },
     right: {
         float: 'right',
         left: '-30px',
@@ -74,12 +67,11 @@ function AppBar({ d }) {
 
     const saveClick = () => {
         const { saveFile } = d;
-        if (d.data_state.allconfirmed) {
+        if (d.allConfirmed) {
             if (d.data_state.saved) {
                 if (window.confirm("你已经保存过一次了，确定要继续保存吗？")) { saveFile(); }
             } else {
                 saveFile();
-                d.data_state.saved = true;
             }
         } else {
             alert("尚未有未确认的图片！");
@@ -91,7 +83,6 @@ function AppBar({ d }) {
         <img className={classes.logo} src={logo} alt="" />
         <img className={clsx(classes.logo, classes.right)} src={filelogo} onClick={uploadClick} alt="" />
         <img className={clsx(classes.save, classes.right)} src={save} onClick={saveClick} alt="" />
-        {d.data_base.length === 0 ? <img className={clsx(classes.add, classes.right)} src={addcaption} onClick={onAdd.bind(this, -1)} alt="" /> : null}
     </div>);
 }
 
