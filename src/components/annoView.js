@@ -90,7 +90,7 @@ function AnnoView({ d }) {
                         (index === d.data_state.currentIndex ? classes.captionSelected : classes.caption)}
                         onClick={onListIndex.bind(this, index)} 
                         onChange={onChange.bind(this, index)} 
-                        defaultValue={value} multiline></Input>
+                        defaultValue={value} multiline rows='4'></Input>
                     <Container className={classes.buttonGroup}>
                         <img className={classes.button} src={addlogo} alt="" onClick={onAdd.bind(this, index)}></img>
                         <img className={classes.button} src={deletelogo} alt="" onClick={onDelete.bind(this, index)}></img>

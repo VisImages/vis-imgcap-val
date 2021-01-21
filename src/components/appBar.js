@@ -19,23 +19,23 @@ const useStyles = makeStyles(theme => ({
     logo: {
         float: 'left',
         position: 'relative',
-        height: '80%',
+        height: '70%',
         left: '30px',
-        top: '10%',
+        top: '15%',
     },
     save: {
         float: 'left',
         position: 'relative',
-        height: '60%',
+        height: '80%',
         left: '30px',
-        top: '18%',
+        top: '10%',
     },
     add: {
         float: 'left',
         position: 'relative',
-        height: '60%',
+        height: '80%',
         left: '30px',
-        top: '20%',
+        top: '10%',
     },
     right: {
         float: 'right',
@@ -91,7 +91,7 @@ function AppBar({ d }) {
         <img className={classes.logo} src={logo} alt="" />
         <img className={clsx(classes.logo, classes.right)} src={filelogo} onClick={uploadClick} alt="" />
         <img className={clsx(classes.save, classes.right)} src={save} onClick={saveClick} alt="" />
-        {d.data_base.length === 0?<img className={clsx(classes.add, classes.right)} src={addcaption} onClick={onAdd.bind(this,-1)} alt="" />:null}
+        {d.data_base.length === 0 ? <img className={clsx(classes.add, classes.right)} src={addcaption} onClick={onAdd.bind(this, -1)} alt="" /> : null}
     </div>);
 }
 

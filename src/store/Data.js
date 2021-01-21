@@ -84,12 +84,12 @@ class Data {
 
     @action onDelete = (index, e) => {
         this.data_base.splice(index, 1);
-        if (this.data_base.length > index) {
-            this.onListIndex(index);
-        } else if (index > 0) { this.onListIndex(index - 1) }
-        else if (this.data_base.length > 0) {
+        if (index > this.data_state.currentIndex) {
+        } else if (this.data_state.currentIndex > 0) { 
+            this.onListIndex(this.data_state.currentIndex - 1) 
+        } else if (this.data_base.length > 0) {
             this.onListIndex(0);
-        }else this.current_state.currentIndex = -1;
+        } else this.current_state.currentIndex = -1;
         //console.log(this.current_state.pageNumber)
         this.checkAllConfirmed();
     }
