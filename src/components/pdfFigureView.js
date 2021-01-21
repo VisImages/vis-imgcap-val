@@ -13,7 +13,6 @@ const useStyles = theme => ({
     root: {
         width: pdf_width,
         position: 'relative',
-        maxWidth: '50%',
         display: 'block',
     },
     nav: {

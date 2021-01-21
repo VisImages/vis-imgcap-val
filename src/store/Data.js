@@ -103,14 +103,16 @@ class Data {
 
     @action setCurrentBox = (delta, position) => {
         const { width, height } = delta;
+        const width_dimension = this.current_state.dimensions.width * this.current_state.scale;
+        const height_dimension = this.current_state.dimensions.height * this.current_state.scale;
         const { x, y } = position;
         const { currentBox } = this.data_state;
         //console.log(x, y, width, height);
         this.data_state.currentBox = [
-            x / this.current_state.dimensions.width,
-            y / this.current_state.dimensions.height,
-            currentBox[2] - currentBox[0] + width / this.current_state.dimensions.width + x / this.current_state.dimensions.width,
-            currentBox[3] - currentBox[1] + height / this.current_state.dimensions.height + y / this.current_state.dimensions.height,
+            x / width_dimension,
+            y / height_dimension,
+            currentBox[2] - currentBox[0] + width / width_dimension + x / width_dimension,
+            currentBox[3] - currentBox[1] + height / height_dimension + y / height_dimension,
         ]
         this.data_base[this.data_state.currentIndex].confirmed = false;
         console.log("data base", this.data_base);
