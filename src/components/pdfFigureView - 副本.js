@@ -7,7 +7,7 @@ import { SlowMotionVideo } from '@material-ui/icons';
 import clsx from 'clsx';
 import { Rnd } from 'react-rnd';
 
-const pdf_width = 1000;
+const pdf_width = 800;
 
 const useStyles = theme => ({
     root: {
@@ -65,6 +65,18 @@ const useStyles = theme => ({
 class PdfFigureView extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            dimensions: {
+                height: 1,
+                width: 1,
+            },
+            box: {
+                x: 0,
+                y: 0,
+                width: 0,
+                height: 0
+            }
+        }
     }
 
 
@@ -79,8 +91,7 @@ class PdfFigureView extends React.Component {
     onPageLoadSuccess = (info) => {
         const { height, width } = info;
         //console.log(info);
-        const { updateDim } = this.props.d;
-        updateDim(width, height);
+        this.setState({ dimensions: { height: height, width: width } });
         //console.log(this.state);
         //console.log("metaaaa", this.props.d.current_state)
     }
@@ -120,10 +131,10 @@ class PdfFigureView extends React.Component {
     render() {
         const { classes } = this.props;
         const pdf = this.props.d.updatePdfUrl;
-        const { currentBox, currentIndex } = this.props.d.data_state;
+        console.log(pdf)
+        console.log("render component", this.props.d.current_state);
+        const { currentBox, confirmed, currentIndex } = this.props.d.data_state;
         const { setCurrentBox, onListIndex } = this.props.d;
-        const { width, height } = this.props.d.current_state.dimensions;
-        const { scale } = this.props.d.current_state;
 
 
         return (
@@ -154,16 +165,33 @@ class PdfFigureView extends React.Component {
                             // width = {classes.page.width}
                             />
                         </Document>
-                        {currentBox.length !== 0 && currentIndex !== -1 &&
-                            this.props.d.data_base.length !== 0 &&
+                        {/* {currentBox.length !== 0 && 
+                            <div className={clsx(classes.bbox, classes.resize)}
+                                style={
+                                    {
+                                    // left: `${100 * currentBox[0] * pdf_width / this.state.dimensions.width}%`,
+                                    // top: `${100 * currentBox[1] * pdf_width / this.state.dimensions.height}%`,
+                                    // width: `${100 * (currentBox[2] - currentBox[0]) * pdf_width / this.state.dimensions.width}%`,
+                                    // height: `${100 * (currentBox[3] - currentBox[1]) * pdf_width / this.state.dimensions.height}%`,
+                                    left: `${100 * currentBox[0]}%`,
+                                    top: `${100 * currentBox[1]}%`,
+                                    width: `${100 * (currentBox[2] - currentBox[0])}%`,
+                                    height: `${100 * (currentBox[3] - currentBox[1])}%`,
+                                    // borderColor: ColorStyles[value.visType],
+                                    borderWidth: '2px',
+                                    borderStyle: 'solid',
+                                    // visibility: value.visibility,
+                                    }}>
+                            </div>} */}
+                        {currentBox.length !== 0 &&
                             <Rnd className={classes.bbox}
                                 size={{
-                                    width: width * scale * (currentBox[2] - currentBox[0]),
-                                    height: height * scale * (currentBox[3] - currentBox[1]),
+                                    width: this.state.dimensions.width * (currentBox[2] - currentBox[0]),
+                                    height: this.state.dimensions.height * (currentBox[3] - currentBox[1]),
                                 }}
                                 position={{
-                                    x: width * scale * currentBox[0],
-                                    y: height * scale * currentBox[1],
+                                    x: this.state.dimensions.width * currentBox[0],
+                                    y: this.state.dimensions.height * currentBox[1],
                                 }}
                                 onDragStop={(me, de) => {
                                     const delta = {
@@ -174,39 +202,38 @@ class PdfFigureView extends React.Component {
                                         x: de.x,
                                         y: de.y
                                     };
-                                    setCurrentBox(delta, position)
+                                    setCurrentBox(delta, position, this.state.dimensions)
                                 }}
                                 onResizeStop={(e, direction, ref, delta, position) => {
-                                    setCurrentBox(delta, position)
+                                    setCurrentBox(delta, position, this.state.dimensions)
                                 }}
                                 style={{
                                     borderWidth: '2px',
                                     borderStyle: 'solid',
-                                    color: this.props.d.data_base[currentIndex].confirmed ? 'green' : 'blue',
-                                    visibility: this.props.d.data_base[currentIndex].page === this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
+                                    color: 'blue',
+                                    visibility: !confirmed || this.props.d.data_base[currentIndex].page === this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
                                 }}
                             >
                             </Rnd>}
-                        {this.props.d.data_base.length !== 0 &&
-                            this.props.d.data_base.map((value, index) =>
-                                <Rnd className={clsx(classes.bbox)}
-                                    size={{
-                                        width: width * scale * (value.bbox[2] - value.bbox[0]),
-                                        height: height * scale * (value.bbox[3] - value.bbox[1]),
-                                    }}
-                                    position={{
-                                        x: width * scale * value.bbox[0],
-                                        y: height * scale * value.bbox[1],
-                                    }}
-                                    onClick={onListIndex.bind(this, index)}
-                                    style={
-                                        {
-                                            borderWidth: '2px',
-                                            borderStyle: 'solid',
-                                            visibility: index !== currentIndex && value.page === this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
-                                            borderColor: value.confirmed ? 'green' : 'grey',
-                                        }}>
-                                </Rnd>)}
+                        {this.props.d.data_base.length !== 0 && this.props.d.data_base.map((value, index) =>
+                            <Rnd className={clsx(classes.bbox)}
+                                size={{
+                                    width: this.state.dimensions.width * (value.bbox[2] - value.bbox[0]),
+                                    height: this.state.dimensions.height * (value.bbox[3] - value.bbox[1]),
+                                }}
+                                position={{
+                                    x: this.state.dimensions.width * value.bbox[0],
+                                    y: this.state.dimensions.height * value.bbox[1],
+                                }}
+                                onClick={onListIndex.bind(this, index)}
+                                style={
+                                    {
+                                        borderWidth: '2px',
+                                        borderStyle: 'solid',
+                                        visibility: index !== currentIndex && value.page === this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
+                                        borderColor: value.confirmed ? 'green' : 'grey',
+                                    }}>
+                            </Rnd>)}
                     </div>
                 </div>
             </div>
