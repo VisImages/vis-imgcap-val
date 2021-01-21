@@ -5,6 +5,7 @@ import logo from '../resource/logo-visimages.png';
 import filelogo from '../resource/file-logo.svg';
 import save from '../resource/save.svg';
 import clsx from 'clsx';
+import addcaption from '../resource/add-caption.svg';
 import { Update } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
@@ -27,7 +28,14 @@ const useStyles = makeStyles(theme => ({
         position: 'relative',
         height: '60%',
         left: '30px',
-        top: '17%',
+        top: '18%',
+    },
+    add: {
+        float: 'left',
+        position: 'relative',
+        height: '60%',
+        left: '30px',
+        top: '20%',
     },
     right: {
         float: 'right',
@@ -44,6 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 function AppBar({ d }) {
     const classes = useStyles();
+    const { onAdd } = d;
 
     const uploadClick = () => {
         const input = document.createElement('input');
@@ -82,6 +91,7 @@ function AppBar({ d }) {
         <img className={classes.logo} src={logo} alt="" />
         <img className={clsx(classes.logo, classes.right)} src={filelogo} onClick={uploadClick} alt="" />
         <img className={clsx(classes.save, classes.right)} src={save} onClick={saveClick} alt="" />
+        {d.data_base.length === 0?<img className={clsx(classes.add, classes.right)} src={addcaption} onClick={onAdd.bind(this,-1)} alt="" />:null}
     </div>);
 }
 
