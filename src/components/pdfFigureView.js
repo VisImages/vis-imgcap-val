@@ -64,6 +64,7 @@ const useStyles = theme => ({
 class PdfFigureView extends React.Component {
     constructor(props) {
         super(props);
+        this.myInput = React.createRef()
     }
 
 
@@ -76,9 +77,9 @@ class PdfFigureView extends React.Component {
     };
 
     onPageLoadSuccess = (info) => {
-        const { height, width } = info;
-        //console.log(info);
         const { updateDim } = this.props.d;
+        const width = this.myInput.current.offsetWidth;
+        const height = this.myInput.current.offsetHeight;
         updateDim(width, height);
         //console.log(this.state);
         //console.log("metaaaa", this.props.d.current_state)
@@ -145,6 +146,7 @@ class PdfFigureView extends React.Component {
                             onLoadError={console.error}
                         >
                             <Page
+                                canvasRef={this.myInput}
                                 pageNumber={this.props.d.current_state.pageNumber}
                                 width={pdf_width}
                                 scale={this.props.d.current_state.scale}
