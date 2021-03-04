@@ -1,44 +1,46 @@
 import React from 'react';
 import { inject, observer } from "mobx-react";
-import { makeStyles, CssBaseline } from "@material-ui/core";
+import { makeStyles, CssBaseline, IconButton } from "@material-ui/core";
 import logo from '../resource/logo-visimages.png';
-import filelogo from '../resource/file-logo.svg';
-import save from '../resource/save.svg';
-import clsx from 'clsx';
-import addcaption from '../resource/add-caption.svg';
-import { Update } from '@material-ui/icons';
+import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import SaveIcon from '@material-ui/icons/Save';
+import PublishIcon from '@material-ui/icons/Publish';
 
 const useStyles = makeStyles(theme => ({
     bar_root: {
-        display: 'block',
+        display: 'flex',
         position: 'relative',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         width: '100%',
         height: '8%',
         backgroundColor: '#ADDFFF',
     },
     logo: {
         float: 'left',
+        padding: '40px',
         position: 'relative',
-        height: '70%',
-        left: '30px',
-        top: '15%',
+        height: '60%',
     },
-    save: {
+    json: {
         float: 'left',
         position: 'relative',
         height: '80%',
         left: '30px',
         top: '10%',
     },
-    right: {
+    icongroup :{
         float: 'right',
-        left: '-30px',
-        right: '30px'
+        display: 'flex',
+        height: '80px',
+        width: '80px',
+        padding: '40px',
+        position:'relative',
+        width: '12%'
     },
-    json: {
-        float: 'json',
-        left: '-20px',
-        right: '-20px'
+    button: {
+        height: '80px',
+        width: '80px',
     }
 }));
 
@@ -78,11 +80,49 @@ function AppBar({ d }) {
         }
     }
 
+    const openJson = () => {
+        const {loadJson} = d;
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '*.json';
+        var reader = new FileReader();
+        
+        reader.onload = function(event) {
+            loadJson(reader.result);
+        };
+        input.onchange = e => {
+            const file = e.target.files[0];
+            if (d.current_state.paperid == 'paper'){
+                alert('pdf file not loaded!');
+                return
+            }
+            if (file.name.split('.')[0] != d.current_state.paperid){
+                alert("pdf name and json name not match!");
+                return
+            }
+            const res = reader.readAsText(file);
+        }
+        input.click();
+    }
+
 
     return (<div className={classes.bar_root}>
         <img className={classes.logo} src={logo} alt="" />
-        <img className={clsx(classes.logo, classes.right)} src={filelogo} onClick={uploadClick} alt="" />
-        <img className={clsx(classes.save, classes.right)} src={save} onClick={saveClick} alt="" />
+        <div className={classes.icongroup}>
+            <IconButton className={classes.button} onClick={uploadClick}>
+                <PictureAsPdfIcon fontSize="large"/>
+            </IconButton>
+            <IconButton className={classes.button} onClick={saveClick}>
+                <SaveIcon fontSize="large"/>
+            </IconButton>
+            <IconButton className={classes.button} onClick={openJson}>
+                <PublishIcon fontSize="large"/>
+            </IconButton>
+            {/* <img className={classes.button} src={PictureAsPdfIcon} onClick={saveClick} alt="" />
+            <img className={classes.button} src={SaveIcon} onClick={saveClick} alt="" />
+            <img className={classes.button} src={PictureAsPdfIcon} onClick={uploadClick} alt="" /> */}
+        </div>
+        
     </div>);
 }
 

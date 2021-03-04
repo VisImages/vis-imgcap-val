@@ -190,24 +190,19 @@ class PdfFigureView extends React.Component {
                             </Rnd>}
                         {this.props.d.data_base.length !== 0 &&
                             this.props.d.data_base.map((value, index) =>
-                                <Rnd className={clsx(classes.bbox)}
-                                    size={{
-                                        width: width * scale * (value.bbox[2] - value.bbox[0]),
-                                        height: height * scale * (value.bbox[3] - value.bbox[1]),
-                                    }}
-                                    position={{
-                                        x: width * scale * value.bbox[0],
-                                        y: height * scale * value.bbox[1],
-                                    }}
-                                    onClick={onListIndex.bind(this, index)}
-                                    style={
-                                        {
-                                            borderWidth: '2px',
-                                            borderStyle: 'solid',
-                                            visibility: index !== currentIndex && value.page === this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
-                                            borderColor: value.confirmed ? 'green' : 'grey',
-                                        }}>
-                                </Rnd>)}
+                                <div className={classes.bbox}
+                                onClick={onListIndex.bind(this, index)}
+                                style={
+                                    {
+                                        left: `${100 *value.bbox[0] }%`,
+                                        top: `${100 *value.bbox[1]}%`,
+                                        width: `${100 *(value.bbox[2] - value.bbox[0])}%`,
+                                        height: `${100 *(value.bbox[3] - value.bbox[1])}%`,
+                                        backgroundColor: value.confirmed ? 'green' : 'grey',
+                                        opacity: '0.5',
+                                        visibility: index !== currentIndex && value.page === this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
+                                    }}>
+                                </div>)}
                     </div>
                 </div>
             </div>

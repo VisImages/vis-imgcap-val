@@ -126,7 +126,7 @@ class Data {
         return flag
     }
 
-    openPdf = (file) => {
+    @action openPdf = (file) => {
         this.initState();
         this.current_state.paper = file;
         this.current_state.scale = 1;
@@ -142,6 +142,17 @@ class Data {
                 this.current_state.pageNumber = this.metaData[this.current_state.paperid][0].page;
             }
         }
+    };
+
+    @action loadJson = (data) => {
+        this.data_state = {
+            loaded: false,
+            currentIndex: -1,
+            currentBox: [0, 0, 0.1, 0.1],
+            saved: true,
+        };
+        this.current_state.pageNumber = 1;
+        this.data_base = JSON.parse(data);
     };
 
     @computed get updatePdfUrl() {
