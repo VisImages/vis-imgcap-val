@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/vis-imgcap-val/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/vis-imgcap-val/static/js/main.a9a504cd.chunk.js",
-    "main.js.map": "/vis-imgcap-val/static/js/main.a9a504cd.chunk.js.map",
-    "runtime-main.js": "/vis-imgcap-val/static/js/runtime-main.937fcd10.js",
-    "runtime-main.js.map": "/vis-imgcap-val/static/js/runtime-main.937fcd10.js.map",
-    "static/js/2.2c69ae3d.chunk.js": "/vis-imgcap-val/static/js/2.2c69ae3d.chunk.js",
-    "static/js/2.2c69ae3d.chunk.js.map": "/vis-imgcap-val/static/js/2.2c69ae3d.chunk.js.map",
-    "static/js/3.ff666f28.chunk.js": "/vis-imgcap-val/static/js/3.ff666f28.chunk.js",
-    "static/js/3.ff666f28.chunk.js.map": "/vis-imgcap-val/static/js/3.ff666f28.chunk.js.map",
+    "main.js": "/vis-imgcap-val/static/js/main.f23b6195.chunk.js",
+    "main.js.map": "/vis-imgcap-val/static/js/main.f23b6195.chunk.js.map",
+    "runtime-main.js": "/vis-imgcap-val/static/js/runtime-main.22567df4.js",
+    "runtime-main.js.map": "/vis-imgcap-val/static/js/runtime-main.22567df4.js.map",
+    "static/js/2.e371f9ef.chunk.js": "/vis-imgcap-val/static/js/2.e371f9ef.chunk.js",
+    "static/js/2.e371f9ef.chunk.js.map": "/vis-imgcap-val/static/js/2.e371f9ef.chunk.js.map",
+    "static/js/3.102590ec.chunk.js": "/vis-imgcap-val/static/js/3.102590ec.chunk.js",
+    "static/js/3.102590ec.chunk.js.map": "/vis-imgcap-val/static/js/3.102590ec.chunk.js.map",
     "index.html": "/vis-imgcap-val/index.html",
     "static/css/main.6dea0f05.chunk.css.map": "/vis-imgcap-val/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.2c69ae3d.chunk.js.LICENSE.txt": "/vis-imgcap-val/static/js/2.2c69ae3d.chunk.js.LICENSE.txt",
+    "static/js/2.e371f9ef.chunk.js.LICENSE.txt": "/vis-imgcap-val/static/js/2.e371f9ef.chunk.js.LICENSE.txt",
     "static/js/pdf.worker.entry.4572f7c1.worker.js": "/vis-imgcap-val/static/js/pdf.worker.entry.4572f7c1.worker.js",
     "static/js/pdf.worker.entry.4572f7c1.worker.js.LICENSE.txt": "/vis-imgcap-val/static/js/pdf.worker.entry.4572f7c1.worker.js.LICENSE.txt",
     "static/js/pdf.worker.entry.4572f7c1.worker.js.map": "/vis-imgcap-val/static/js/pdf.worker.entry.4572f7c1.worker.js.map",
@@ -20,9 +20,9 @@
     "static/media/logo-visimages.341217e6.png": "/vis-imgcap-val/static/media/logo-visimages.341217e6.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.937fcd10.js",
-    "static/js/2.2c69ae3d.chunk.js",
+    "static/js/runtime-main.22567df4.js",
+    "static/js/2.e371f9ef.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.a9a504cd.chunk.js"
+    "static/js/main.f23b6195.chunk.js"
   ]
 }
