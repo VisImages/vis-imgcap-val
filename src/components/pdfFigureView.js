@@ -157,19 +157,19 @@ class PdfFigureView extends React.Component {
                         </Document>
                         {this.props.d.data_base.length !== 0 &&
                             this.props.d.data_base.map((value, index) =>
-                                <div className={classes.bbox}
+                            value.page === this.props.d.current_state.pageNumber?<div className={classes.bbox}
                                 onClick={onListIndex.bind(this, index)}
                                 style={
                                     {
-                                        left: `${100 *value.bbox[0] }%`,
-                                        top: `${100 *value.bbox[1]}%`,
-                                        width: `${100 *(value.bbox[2] - value.bbox[0])}%`,
-                                        height: `${100 *(value.bbox[3] - value.bbox[1])}%`,
+                                        left: `${width * scale * value.bbox[0]}px`,
+                                        top: `${height * scale * value.bbox[1]}px`,
+                                        width: `${width * scale *(value.bbox[2] - value.bbox[0])}px`,
+                                        height: `${height * scale * (value.bbox[3] - value.bbox[1])}px`,
                                         backgroundColor: value.confirmed ? 'green' : 'grey',
                                         opacity: '0.5',
-                                        visibility: index !== currentIndex && value.page === this.props.d.current_state.pageNumber ? 'visible' : 'hidden',
+                                        visibility: index !== currentIndex?'visible':'hidden',
                                     }}>
-                                </div>)}
+                                </div>:null)}
                         {currentBox.length !== 0 && currentIndex !== -1 &&
                             this.props.d.data_base.length !== 0 &&
                             <Rnd className={classes.bbox}

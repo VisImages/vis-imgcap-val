@@ -115,7 +115,7 @@ function AnnoView({ d }) {
                     variant="contained" 
                     onClick={onConfirm.bind(this, index)}
                     disabled={d.data_base[index].confirmed}
-                    color={d.data_base[index].confirmed ? 'default' : 'primary'}>
+                    color={index === d.data_state.currentIndex?'primary':d.data_base[index].confirmed ? 'primary' : 'secondary'}>
                     confirm
                 </Button>
             </div>
