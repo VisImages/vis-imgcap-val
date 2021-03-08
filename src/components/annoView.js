@@ -70,7 +70,7 @@ function AnnoView({ d }) {
 
     const onChange = (index, e) => {
         console.log(e.target.value)
-        captionList[index] = e.target.value;
+        d.data_base[index].caption_text = e.target.value;
         d.data_base[index].confirmed = false;
     };
 
@@ -78,10 +78,6 @@ function AnnoView({ d }) {
         //this.data_state.confirmed = true;
         console.log(captionList[index])
         d.data_base[index].confirmed = !d.data_base[index].confirmed;
-        if (d.data_base[index].confirmed) {
-            d.data_base[index].caption_text = captionList[index];
-            d.data_base[index].bbox = d.data_state.currentBox;
-        }
     }
 
     console.log(d.current_state);

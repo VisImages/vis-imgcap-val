@@ -113,7 +113,7 @@ class Data {
         ]
         this.data_base[this.data_state.currentIndex].confirmed = false;
         this.data_state.saved = false;
-        this.data_base[this.data_state.currentIndex].bbox = this.data_state.currentBox;
+        this.data_base[this.data_state.currentIndex].bbox = [...this.data_state.currentBox];
         console.log("data base", this.data_base);
         //console.log(this.data_state.currentBox);
     }
