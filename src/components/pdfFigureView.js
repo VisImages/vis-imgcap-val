@@ -165,7 +165,7 @@ class PdfFigureView extends React.Component {
                                         top: `${height * scale * value.bbox[1]}px`,
                                         width: `${width * scale *(value.bbox[2] - value.bbox[0])}px`,
                                         height: `${height * scale * (value.bbox[3] - value.bbox[1])}px`,
-                                        backgroundColor: value.confirmed ? 'green' : 'grey',
+                                        backgroundColor: value.confirmed ? 'green' : 'red',
                                         opacity: '0.5',
                                         visibility: index !== currentIndex?'visible':'hidden',
                                     }}>
